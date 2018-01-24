@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="images/favicon.ico">
+        
+
+	<title>Module 3 - Volume Operations and Administration - RHGS Test Drive Instructions</title>
+
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.0.3.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <link href="../css/base.css" rel="stylesheet">
+        <link href="../extra.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">RHGS Test Drive Instructions</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
+            
+            
+                <li >
+                    <a href="..">Introduction</a>
+                </li>
+            
+            
+            
+                <li class="dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Modules <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    
+                        
+<li >
+    <a href="../gluster-module-1/">Module 1 - Introduction to Gluster concepts</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../gluster-module-2/">Module 2 - Volume Setup and Client Access</a>
+</li>
+
+                    
+                        
+<li class="active">
+    <a href="./">Module 3 - Volume Operations and Administration</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../gluster-module-4/">Module 4 - Disperse Volumes (Erasure Coding)</a>
+</li>
+
+                    
+                        
+<li >
+    <a href="../gluster-module-5/">Module 5 - Tiered Volumes (Cache Tiering)</a>
+</li>
+
+                    
+                    </ul>
+                </li>
+            
+            
+            </ul>
+
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                <li >
+                    <a rel="next" href="../gluster-module-2/">
+                        <i class="fa fa-arrow-left"></i> Previous
+                    </a>
+                </li>
+                <li >
+                    <a rel="prev" href="../gluster-module-4/">
+                        Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+            <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#lab-guide-gluster-test-drive-module-3-volume-operations-and-administration">Lab Guide  Gluster Test Drive Module 3  Volume Operations and Administration</a></li>
+        
+            <li><a href="#lab-agenda">Lab Agenda</a></li>
+        
+            <li><a href="#getting-started">Getting Started</a></li>
+        
+            <li><a href="#lab-setup">Lab Setup</a></li>
+        
+            <li><a href="#volume-self-healing">Volume Self-Healing</a></li>
+        
+            <li><a href="#volume-expansion-and-rebalance">Volume Expansion and Rebalance</a></li>
+        
+            <li><a href="#analyzing-volume-performance">Analyzing Volume Performance</a></li>
+        
+            <li><a href="#administration-of-directory-quotas">Administration of Directory Quotas</a></li>
+        
+    
+        <li class="main "><a href="#end-of-module-3">End of Module 3</a></li>
+        
+    
+    </ul>
+</div></div>
+            <div class="col-md-9" role="main">
+
+<h1 id="lab-guide-gluster-test-drive-module-3-volume-operations-and-administration">Lab Guide <br/> Gluster Test Drive Module 3 <br/> Volume Operations and Administration</h1>
+<h2 id="lab-agenda">Lab Agenda</h2>
+<p>Welcome to the Gluster Test Drive Module 3 - Volume Operations and Administration. In this lab you will:</p>
+<ul>
+<li>Initiate and observe volume self-heal behavior</li>
+<li>Expand a distribute-replicate volume and observe rebalance</li>
+<li>Understand basic brick monitoring and performance diagnostics</li>
+<li>Set and observe volume and directory quotas</li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<p>If you have not already done so, click the <img src="http://us-west-2-aws-training.s3.amazonaws.com/awsu-spl/spl02-working-ebs/media/image005.png"> button in the navigation bar above to launch your lab. If you are prompted for a token, use the one distributed to you (or credits you&rsquo;ve purchased).</p>
+<blockquote>
+<p><strong>NOTE</strong> It may take <strong>up to 10 minutes</strong> for your lab systems to start up before you can access them.</p>
+</blockquote>
+<h2 id="lab-setup">Lab Setup</h2>
+<h3 id="connect-to-the-lab">Connect to the Lab</h3>
+<p>Connect to the <strong>rhgs1</strong> server instance using its public IP address from the <strong>Addl. Info</strong> tab to the right (Linux/Mac example below).</p>
+<div class="codehilite"><pre><span></span>ssh student@&lt;rhgs1PublicIP&gt;
+</pre></div>
+
+
+<h3 id="if-needed-create-the-repvol-volume">If Needed, Create the repvol Volume</h3>
+<p>If you have not already done so as part of <strong>Module 2</strong>, deploy the <strong>repvol</strong> volume using the provided gdeploy configuration file.</p>
+<div class="codehilite"><pre><span></span>gdeploy -c ~/repvol.conf
+</pre></div>
+
+
+<p>Confirm the volume configuration.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume info repvol
+</pre></div>
+
+
+<p><code>Volume Name: repvol</code><br />
+<code>Type: Replicate</code><br />
+<code>Volume ID: 6fb61bd8-4642-44e9-a5ec-4f15c8740b6f</code><br />
+<code>Status: Started</code><br />
+<code>Number of Bricks: 1 x 2 = 2</code><br />
+<code>Transport-type: tcp</code><br />
+<code>Bricks:</code><br />
+<code>Brick1: rhgs1:/rhgs/brick_xvdc/repvol</code><br />
+<code>Brick2: rhgs2:/rhgs/brick_xvdc/repvol</code><br />
+<code>Options Reconfigured:</code><br />
+<code>performance.readdir-ahead: on</code></p>
+<h2 id="volume-self-healing">Volume Self-Healing</h2>
+<h3 id="about-self-healing">About Self-Healing</h3>
+<p>A Gluster replicated volume maintains multiple copies of files synchronously on the volume bricks. This can provide high availability, load balancing, and increased read throughput. When a member of a replica set becomes unavailable for any reason, Gluster tracks the changes made to the online bricks in order to facilitate a set of self-healing processes when the offline bricks return to service.</p>
+<p>There are two types of self-heal that operate concurrently: <em>client-side</em> and <em>server-side</em> (also known as <em>proactive</em>). Client-side heals are triggered when a client performs a file operation on a file or directory marked as needing healed. Server-side heals are managed by background processes that run on each Gluster node, periodically scouring the bricks and healing any files that they find as marked.</p>
+<h3 id="offlining-a-brick">Offlining a Brick</h3>
+<p>Your <strong>repvol</strong> volume has two bricks and a replication value of 2, and therefore a single replica set between bricks on nodes <strong>rhgs1</strong> and <strong>rhgs2</strong>. On node <strong>rhgs1</strong> you will stop all Gluster services and processes to ensure its bricks are offline.</p>
+<div class="codehilite"><pre><span></span>sudo systemctl stop glusterd.service
+sudo pkill glusterfs
+sudo pkill glusterfsd
+</pre></div>
+
+
+<p>Confirm there are no gluster processes running. The below command should return nothing.</p>
+<div class="codehilite"><pre><span></span>sudo ps -ef <span class="p">|</span>grep glusterfs <span class="p">|</span> grep -v grep
+</pre></div>
+
+
+<h3 id="writing-files-to-the-degraded-volume">Writing Files to the Degraded Volume</h3>
+<p>From <strong>rhgs1</strong> connect via SSH to <strong>client1</strong>.</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
+<p>If you did not already mount the <strong>repvol</strong> volume as part of Module 2, do it now.</p>
+<blockquote>
+<p><em>NOTE</em> Below we mount the volume on <strong>client1</strong> using node <strong>rhgs2</strong> as the server because the Gluster services on node <strong>rhgs1</strong> were offlined above.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/native/repvol
+sudo mount -t glusterfs rhgs2:repvol /rhgs/client/native/repvol
+</pre></div>
+
+
+<p>Confirm the volume is mounted.</p>
+<div class="codehilite"><pre><span></span>mount <span class="p">|</span> grep repvol
+</pre></div>
+
+
+<p><code>rhgs2:repvol     10G   34M   10G   1% /rhgs/client/native/repvol</code></p>
+<p>Create a directory to hold your files and set permissions appropriately.</p>
+<div class="codehilite"><pre><span></span>sudo mkdir /rhgs/client/native/repvol/mydir
+sudo chmod <span class="m">777</span> /rhgs/client/native/repvol/mydir
+</pre></div>
+
+
+<p>Write 10 new files to the directory you created in the mounted volume.</p>
+<blockquote>
+<p><strong>NOTE</strong> There is a default timeout of 42 seconds before which the client will continue trying to contact the offline brick. If that timeout has not expired before you issue a file operation on the mounted volume, you may experience a delay at the client.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">001</span>..010<span class="o">}</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> hello<span class="nv">$i</span> &gt; /rhgs/client/native/repvol/mydir/healme<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+</pre></div>
+
+
+<p>Confirm the new files were written.</p>
+<div class="codehilite"><pre><span></span>ls /rhgs/client/native/repvol/mydir/ <span class="p">|</span> wc -l
+</pre></div>
+
+
+<p><code>10</code></p>
+<h3 id="viewing-the-volume-state">Viewing the Volume State</h3>
+<p>Return to lab node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
+<p>On node <strong>rhgs1</strong>, note that the new directory you just created is not visible on the brick backend because this brick was offline at the time of the write.</p>
+<div class="codehilite"><pre><span></span>ls /rhgs/brick_xvdc/repvol/mydir
+</pre></div>
+
+
+<p><code>ls: cannot access /rhgs/brick_xvdc/repvol/mydir: No such file or directory</code></p>
+<p>Connect to node <strong>rhgs2</strong> via SSH.</p>
+<div class="codehilite"><pre><span></span>ssh student@rhgs2
+</pre></div>
+
+
+<p>On node <strong>rhgs2</strong>, note that the <code>volume status</code> output only shows the processes for itself and nothing for node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume status repvol
+</pre></div>
+
+
+<p><code>Status of volume: repvol</code><br />
+<code>Gluster process                             TCP Port  RDMA Port  Online  Pid</code><br />
+<code>------------------------------------------------------------------------------</code><br />
+<code>Brick rhgs2:/rhgs/brick_xvdc/repvol         49152     0          Y       11468</code><br />
+<code>NFS Server on localhost                     2049      0          Y       11490</code><br />
+<code>Self-heal Daemon on localhost               N/A       N/A        Y       11495</code><br />
+<code></code> <br />
+<code>Task Status of Volume repvol</code><br />
+<code>------------------------------------------------------------------------------</code><br />
+<code>There are no active volume tasks</code></p>
+<p>Confirm that the files you created at the client are visible on the brick backend.</p>
+<div class="codehilite"><pre><span></span>ls /rhgs/brick_xvdc/repvol/mydir <span class="p">|</span> wc -l
+</pre></div>
+
+
+<p><code>10</code></p>
+<p>You can view the volume&rsquo;s knowledge of the pending file heals with the below command.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume heal repvol info
+</pre></div>
+
+
+<p><code>Brick rhgs1:/rhgs/brick_xvdc/repvol</code><br />
+<code>Status: Transport endpoint is not connected</code><br />
+<code></code><br />
+<code>Brick rhgs2:/rhgs/brick_xvdc/repvol</code><br />
+<code>/</code><br />
+<code>/mydir</code><br />
+<code>/mydir/healme001</code><br />
+<code>/mydir/healme002</code><br />
+<code>/mydir/healme003</code><br />
+<code>/mydir/healme004</code><br />
+<code>/mydir/healme005</code><br />
+<code>/mydir/healme006</code><br />
+<code>/mydir/healme007</code><br />
+<code>/mydir/healme008</code><br />
+<code>/mydir/healme009</code><br />
+<code>/mydir/healme010</code><br />
+<code>Number of entries: 12</code></p>
+<p>Return to lab node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
+<h3 id="triggering-the-self-heal">Triggering the Self-Heal</h3>
+<p>Re-start the gluster services. Note that starting the <code>glusterd</code> management daemon will automatically start the <code>glusterfsd</code> brick and <code>glusterfs</code> supporting processes.</p>
+<div class="codehilite"><pre><span></span>sudo systemctl start glusterd.service
+</pre></div>
+
+
+<p>Connect again to <strong>client1</strong> via SSH.</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
+<p>Stat a file that you created above. This will trigger client-side self-heal.</p>
+<div class="codehilite"><pre><span></span>stat /rhgs/client/native/repvol/mydir/healme001
+</pre></div>
+
+
+<p>Return to lab node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
+<p>Looking again at the brick backend for the <strong>repvol</strong> volume on node <strong>rhgs1</strong> we can now see the healed files are present.</p>
+<div class="codehilite"><pre><span></span>ls /rhgs/brick_xvdc/repvol/mydir/ <span class="p">|</span> wc -l
+</pre></div>
+
+
+<p><code>10</code></p>
+<h2 id="volume-expansion-and-rebalance">Volume Expansion and Rebalance</h2>
+<h3 id="about-rebalance">About Rebalance</h3>
+<p>When a Gluster volume is scaled horizontally by adding additional bricks, the overall architecture of the volume changes fundamentally and affects data placement by the <em>Distributed Hash Algorithm</em>. New file writes can easily account for the new bricks by including them in the random file placement calculation. However, any existing files will remain on their original bricks until a <strong>rebalance</strong> is initiated by the administrator.</p>
+<p>A rebalance triggers a re-calculation of data placement for existing files in the volume. A background operation then takes responsibility for moving the files to their new bricks, as needed. This, of course, is one of the heavier operations that Gluster performs, consuming additional system resources across the trusted pool until the rebalance is complete.</p>
+<h3 id="about-distributed-replicated-volumes">About Distributed-Replicated Volumes</h3>
+<p>In the lab modules so far you have worked separately with <em>Distributed</em> and <em>Replicated</em> volumes. Here you will expand your <strong>repvol</strong> volume by adding additional bricks. The replica count remains 2, meaning that every file is written synchronously to two bricks. By adding additional bricks (which you must do in sets of 2 to maintain the replica count), you are creating a distribution set out of multiple replica sets. Upon a file write, first a hashing calculation will be made to determine under which branch of the distribute set to place the file, then the write is made synchronously to the replica peers in that branch. This will be further illustrated in the commands below.</p>
+<h3 id="add-files-to-the-repvol-volume">Add Files to the repvol Volume</h3>
+<p>From <strong>rhgs1</strong> connect via SSH to <strong>client1</strong>.</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
+<p>Add 200 new files to the <strong>repvol</strong> volume.</p>
+<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">001</span>..200<span class="o">}</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> hello<span class="nv">$i</span> &gt; /rhgs/client/native/repvol/mydir/rebalanceme<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+</pre></div>
+
+
+<p>Confim the file count from the client. Note that we added 10 files in the self-heal section above, so the total file count should be 210.</p>
+<div class="codehilite"><pre><span></span>ls /rhgs/client/native/repvol/mydir <span class="p">|</span> wc -l
+</pre></div>
+
+
+<p><code>210</code></p>
+<p>Exit <strong>client1</strong>, returning to node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
+<p>On node <strong>rhgs1</strong>, list the backend brick contents and notice that the file count matches that of the client&rsquo;s view of the volume. Currently, there is only one branch to the distribute set, so all files will be located on this brick and on its replica peer, <strong>rhgs2</strong>.</p>
+<div class="codehilite"><pre><span></span>ls /rhgs/brick_xvdc/repvol/mydir <span class="p">|</span> wc -l
+</pre></div>
+
+
+<p><code>210</code></p>
+<h3 id="expand-the-repvol-volume">Expand the repvol Volume</h3>
+<p>First, examine the existing configuration for the <strong>repvol</strong> volume. Notice in particular the <strong>Type</strong> and <strong>Number of Bricks</strong> fields.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume info repvol
+</pre></div>
+
+
+<p><code>Volume Name: repvol</code><br />
+<code>Type: Replicate</code><br />
+<code>Volume ID: 2ec69e5b-0d04-4a3e-94c3-337b4302fbe8</code><br />
+<code>Status: Started</code><br />
+<code>Number of Bricks: 1 x 2 = 2</code><br />
+<code>Transport-type: tcp</code><br />
+<code>Bricks:</code><br />
+<code>Brick1: rhgs1:/rhgs/brick_xvdc/repvol</code><br />
+<code>Brick2: rhgs2:/rhgs/brick_xvdc/repvol</code><br />
+<code>Options Reconfigured:</code><br />
+<code>performance.readdir-ahead: on</code></p>
+<p>You will use the <code>gdeploy</code> command to create the new brick backends for nodes rhgs3 through rhgs6, and to add these new bricks to the layout of the <strong>repvol</strong> volume. Take a look at the contents of the configuration file.</p>
+<div class="codehilite"><pre><span></span>cat ~/repvol-expand.conf
+</pre></div>
+
+
+<p><code>[hosts]</code><br />
+<code>rhgs3</code><br />
+<code>rhgs4</code><br />
+<code>rhgs5</code><br />
+<code>rhgs6</code><br />
+<code></code><br />
+<code>[backend-setup]</code><br />
+<code>devices=xvdc</code><br />
+<code>vgs=rhgs_vg2</code><br />
+<code>pools=rhgs_thinpool2</code><br />
+<code>lvs=rhgs_lv2</code><br />
+<code>mountpoints=/rhgs/brick_xvdc</code><br />
+<code>brick_dirs=/rhgs/brick_xvdc/repvol</code><br />
+<code></code><br />
+<code>[volume]</code><br />
+<code>action=add-brick</code><br />
+<code>volname=rhgs1:repvol</code><br />
+<code>bricks=rhgs3:/rhgs/brick_xvdc/repvol,rhgs4:/rhgs/brick_xvdc/repvol,rhgs5:/rhgs/brick_xvdc/repvol,rhgs6:/rhgs/brick_xvdc/repvol</code></p>
+<p>Use <code>gdeploy</code> to make the volume change.</p>
+<div class="codehilite"><pre><span></span>gdeploy -c ~/repvol-expand.conf 
+</pre></div>
+
+
+<p>Take a look at the updated volume configuration. Note the changes to <strong>Type</strong> and <strong>Number of Bricks</strong>, as well as the additional bricks listed.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume info repvol
+</pre></div>
+
+
+<p><code>Volume Name: repvol</code><br />
+<code>Type: Distributed-Replicate</code><br />
+<code>Volume ID: 2ec69e5b-0d04-4a3e-94c3-337b4302fbe8</code><br />
+<code>Status: Started</code><br />
+<code>Number of Bricks: 3 x 2 = 6</code><br />
+<code>Transport-type: tcp</code><br />
+<code>Bricks:</code><br />
+<code>Brick1: rhgs1:/rhgs/brick_xvdc/repvol</code><br />
+<code>Brick2: rhgs2:/rhgs/brick_xvdc/repvol</code><br />
+<code>Brick3: rhgs3:/rhgs/brick_xvdc/repvol</code><br />
+<code>Brick4: rhgs4:/rhgs/brick_xvdc/repvol</code><br />
+<code>Brick5: rhgs5:/rhgs/brick_xvdc/repvol</code><br />
+<code>Brick6: rhgs6:/rhgs/brick_xvdc/repvol</code><br />
+<code>Options Reconfigured:</code><br />
+<code>performance.readdir-ahead: on</code></p>
+<p>Start the rebalance operation on the <strong>repvol</strong> volume.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume rebalance repvol start
+</pre></div>
+
+
+<p><code>volume rebalance: repvol: success: Rebalance on repvol has been started successfully. Use rebalance status command to check status of the rebalance process.</code><br />
+<code>ID: e13d3c36-9531-4411-98aa-c974de5e2219</code></p>
+<p>Take a look at the status of the rebalance. If you run this command quickly after the <code>rebalance start</code> above you may catch the <em>localhost</em> in the <em>in progress</em> status, but due to the limited scale of the lab the rebalance may complete before you run this command and instead show the <em>completed</em> status for this node.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume rebalance repvol status
+</pre></div>
+
+
+<p><code>Node Rebalanced-files          size       scanned      failures       skipped               status   run time in secs</code><br />
+<code>---------      -----------   -----------   -----------   -----------   -----------         ------------     --------------</code><br />
+<code>localhost               79         1.1KB           210             0             0          in progress               1.00</code><br />
+<code>rhgs2                0        0Bytes             0             0             0            completed               0.00</code><br />
+<code>rhgs3                0        0Bytes             0             0             0            completed               0.00</code><br />
+<code>rhgs4                0        0Bytes             0             0             0            completed               0.00</code><br />
+<code>rhgs5                0        0Bytes             0             0             0            completed               0.00</code><br />
+<code>rhgs6                0        0Bytes             0             0             0            completed               0.00</code><br />
+<code>volume rebalance: repvol: success</code></p>
+<p>Now take a look again at the count of files in the brick backend for <strong>repvol</strong> on node <strong>rhgs1</strong>. You will find that the number of files has reduced considerably.</p>
+<div class="codehilite"><pre><span></span>ls /rhgs/brick_xvdc/repvol/mydir <span class="p">|</span> wc -l
+</pre></div>
+
+
+<p><code>75</code></p>
+<p>To further illustrate the effect of the rebalance, connect to node <strong>rhgs5</strong> via SSH and look at the file count in the brick backend there.</p>
+<div class="codehilite"><pre><span></span>ssh student@rhgs5
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>ls /rhgs/brick_xvdc/repvol/mydir <span class="p">|</span> wc -l
+</pre></div>
+
+
+<p><code>66</code></p>
+<p>Return to node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
+<h3 id="the-gstatus-command">The gstatus Command</h3>
+<p>A good summary view of your volume is available through the <code>gstatus</code> command. Passing the <code>-l</code> flag to this command will also provide a visual of the volume layout in ASCII format, which can be very handy for understanding the distribute branching and replica pairing.</p>
+<div class="codehilite"><pre><span></span>sudo gstatus -v repvol -l -w
+</pre></div>
+
+
+<p><code> 
+     Product: RHGS Server v3.1Update3  Capacity:  60.00 GiB(raw bricks)
+      Status: HEALTHY                      201.00 MiB(raw used)
+   Glusterfs: 3.7.5                         30.00 GiB(usable from volumes)
+  OverCommit: No                Snapshots:   0
+
+Volume Information
+    repvol           UP - 6/6 bricks up - Distributed-Replicate
+                     Capacity: (0% used) 100.00 MiB/30.00 GiB (used/total)
+                     Snapshots: 0
+                     Self Heal:  6/ 6
+                     Tasks Active: None
+                     Protocols: glusterfs:on  NFS:on  SMB:on
+                     Gluster Connectivty: 7 hosts, 78 tcp connections
+
+    repvol---------- +
+                     |
+                Distribute (dht)
+                         |
+                         +-- Replica Set0 (afr)
+                         |     |
+                         |     +--rhgs1:/rhgs/brick_xvdc/repvol(UP) 33.00 MiB/10.00 GiB 
+                         |     |
+                         |     +--rhgs2:/rhgs/brick_xvdc/repvol(UP) 33.00 MiB/10.00 GiB 
+                         |
+                         +-- Replica Set1 (afr)
+                         |     |
+                         |     +--rhgs3:/rhgs/brick_xvdc/repvol(UP) 33.00 MiB/10.00 GiB 
+                         |     |
+                         |     +--rhgs4:/rhgs/brick_xvdc/repvol(UP) 33.00 MiB/10.00 GiB 
+                         |
+                         +-- Replica Set2 (afr)
+                               |
+                               +--rhgs5:/rhgs/brick_xvdc/repvol(UP) 33.00 MiB/10.00 GiB 
+                               |
+                               +--rhgs6:/rhgs/brick_xvdc/repvol(UP) 33.00 MiB/10.00 GiB 
+</code></p>
+
+<h2 id="analyzing-volume-performance">Analyzing Volume Performance</h2>
+<h3 id="volume-profiling">Volume Profiling</h3>
+<p>The <code>volume profile</code> command provides an interface to get the per-brick or NFS server I/O information for each File Operation (FOP) of a volume. This information helps in identifying the bottlenecks in the storage system.</p>
+<blockquote>
+<p><strong>NOTE</strong> The <code>volume profile</code> tool consumes system resources when it is started. It is recommended that this only be enabled when needed for diagnostic purposes.</p>
+</blockquote>
+<p>Start profiling for the <strong>repvol</strong> volume.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume profile repvol start
+</pre></div>
+
+
+<p><code>Starting volume profile on repvol has been successful</code></p>
+<p>Connect to node <strong>client1</strong> via SSH from node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
+<p>For your convenience, a script called <code>fopmaker.sh</code> has been included to generate some interesting file operations on the volume. Run the command, passing the <strong>repvol</strong> volume name to it.</p>
+<div class="codehilite"><pre><span></span>/home/student/fopmaker.sh repvol
+</pre></div>
+
+
+<p><code>Generating interesting file operations. Please wait...</code><br />
+<code>Done!</code></p>
+<p>Exit node <strong>client1</strong>, returning to node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
+<p>The <code>profile info</code> Gluster command will provide many statistics about the file operations performed on the individual bricks. The output can be lengthy, so only a truncated sample is included below.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume profile repvol info
+</pre></div>
+
+
+<p><code>
+Brick: rhgs1:/rhgs/brick_xvdc/repvol
+------------------------------------
+Cumulative Stats:
+   Block Size:                  8b+                  32b+                  64b+ 
+ No. of Reads:                  135                     0                     0 
+No. of Writes:                  210                     7                     7
+
+   Block Size:                128b+                 256b+                 512b+ 
+ No. of Reads:                    0                     0                     0 
+No. of Writes:                  341                    20                    14 
+
+   Block Size:               1024b+                2048b+                4096b+ 
+ No. of Reads:                    0                     0                     0 
+No. of Writes:                  446                    11                     6 
+
+~~~ OUTPUT TRUNCATED ~~~
+</code></p>
+
+<p>When finished, stop the volume profiling.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume profile repvol stop
+</pre></div>
+
+
+<p><code>Stopping volume profile on repvol has been successful</code></p>
+<h3 id="volume-top">Volume Top</h3>
+<p>The <code>volume top</code> command allows you to view the brick performance metrics, including read, write, file open calls, file read calls, file write calls, directory open calls, and directory real calls. The volume top command displays up to 100 results.</p>
+<p>There are many different data sets you can view with the <code>volume top</code> command. A couple of examples are included here, but feel free to try other command options. Lengthy command outputs have been truncated in the examples provided.</p>
+<blockquote>
+<p><strong>TIP</strong> Run the <code>sudo gluster volume top help</code> command to see a command reference.</p>
+</blockquote>
+<p>View the files with the highest read calls across all bricks in the <strong>repvol</strong> volume.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume top repvol <span class="nb">read</span>
+</pre></div>
+
+
+<p><code>
+Brick: rhgs1:/rhgs/brick_xvdc/repvol
+Count       filename
+=======================
+5       /mydir/profile256
+2       /mydir/profile32/file32
+1       /mydir/rebalanceme199
+1       /mydir/rebalanceme198
+1       /mydir/rebalanceme196
+
+~~~ OUTPUT TRUNCATED ~~~
+</code></p>
+
+<p>Running the above command without specifying a brick will return results for all bricks, and the output will be lenghty.</p>
+<p>View the files with the highest open calls on brick <em>rhgs3:/rhgs/brick_xvdc/repvol</em>.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume top repvol open brick rhgs3:/rhgs/brick_xvdc/repvol
+</pre></div>
+
+
+<p><code>
+Brick: rhgs3:/rhgs/brick_xvdc/repvol
+Current open fds: 0, Max open fds: 4, Max openfd time: 2016-11-02 18:51:09.259480
+Count       filename
+=======================
+3       /mydir/profile64k
+1       /mydir/rebalanceme199
+1       /mydir/rebalanceme198
+1       /mydir/rebalanceme194
+1       /mydir/rebalanceme190
+
+~~~ OUTPUT TRUNCATED ~~~
+</code></p>
+
+<p>The <code>volume top</code> command can additionally perform some basic direct performance tests on the bricks.</p>
+<blockquote>
+<p><strong>NOTE</strong> Using the performance analysis functionality of the <code>volume top</code> command will impact the volume performance for users. It is recommended that this only be used for diagnostic purposes.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span>sudo gluster volume top repvol write-perf bs <span class="m">4096</span> count <span class="m">128</span> brick rhgs1:/rhgs/brick_xvdc/repvol
+</pre></div>
+
+
+<p><code>
+Brick: rhgs1:/rhgs/brick_xvdc/repvol
+Throughput 1307.45 MBps time 0.0004 secs
+MBps Filename                                        Time                      
+==== ========                                        ====                      
+1081 /mydir/profile2k                                2016-11-02 19:19:41.113567
+ 365 /mydir/profile256                               2016-11-02 19:19:41.86411 
+ 148 /mydir/profile32/file32                         2016-11-02 19:40:57.134769
+  81 /mydir/profile256/file256                       2016-11-02 19:40:57.323656
+  66 /mydir/profile32                                2016-11-02 19:19:51.352239
+
+~~~ OUTPUT TRUNCATED ~~~
+</code></p>
+
+<h2 id="administration-of-directory-quotas">Administration of Directory Quotas</h2>
+<h3 id="about-quotas">About Quotas</h3>
+<p>Directory quotas allow you to set limits on disk space used by directories or the volume. Storage administrators can control the disk space utilization at the directory or the volume level, or both. This is particularly useful in cloud deployments to facilitate the use of utility billing models.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume quota repvol <span class="nb">enable</span>
+</pre></div>
+
+
+<p><code>volume quota : success</code></p>
+<blockquote>
+<p><strong>NOTE</strong> Due to the limited scale of this lab and the distributed nature of Gluster volumes, it may be easy to exceed relatively low quota values. Because of this, and <em>only for the purpose of this lab</em>, you will set the quota timeout values to 0 below.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span>sudo gluster volume <span class="nb">set</span> repvol features.quota-timeout <span class="m">0</span>
+sudo gluster volume <span class="nb">set</span> repvol features.hard-timeout <span class="m">0</span>
+sudo gluster volume <span class="nb">set</span> repvol features.soft-timeout <span class="m">0</span>
+</pre></div>
+
+
+<blockquote>
+<p><strong>NOTE</strong> Directory quotas can only be set on directories that have previously been created by a Gluster client. Below you will set a quota on the <strong>mydir</strong> subdirectory of the <strong>repvol</strong> volume, which was created previously in the steps above. If this directory does not currently exist in your voulume, you will need to connect to <strong>client1</strong> and create it before proceeding.</p>
+</blockquote>
+<p>Set a quota hard limit of 200MB for the <strong>mydir</strong> subdirectory of the <strong>repvol</strong> volume, and then view the settings.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume quota repvol limit-usage /mydir 200MB
+</pre></div>
+
+
+<p><code>volume quota : success</code></p>
+<div class="codehilite"><pre><span></span>sudo gluster volume quota repvol list
+</pre></div>
+
+
+<p><code>
+                  Path                   Hard-limit  Soft-limit      Used  Available  Soft-limit exceeded? Hard-limit exceeded?
+-------------------------------------------------------------------------------------------------------------------------------
+/mydir                                   200.0MB     80%(160.0MB)   82.4MB 117.6MB              No                   No
+</code></p>
+
+<p>Connect again to node <strong>client1</strong> via SSH.</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
+<p>Attempt to create 200 10MB files in the <strong>mydir</strong> subdirectory of the volume. At some point during this command loop, the writes should fail with a <strong>Disk quota exceeded</strong> error message.</p>
+<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">001</span>..200<span class="o">}</span><span class="p">;</span> <span class="k">do</span> dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/rhgs/client/native/repvol/mydir/quota<span class="nv">$i</span> <span class="nv">bs</span><span class="o">=</span>1024k <span class="nv">count</span><span class="o">=</span><span class="m">10</span><span class="p">;</span> <span class="k">done</span>
+</pre></div>
+
+
+<p>Exit <strong>client1</strong> returning to node <strong>rhgs1</strong>.</p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
+<p>Take another look at the <code>quota list</code> output for the volume, noting the quota limits exceeded.</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume quota repvol list
+</pre></div>
+
+
+<p><code>
+                  Path                   Hard-limit  Soft-limit      Used  Available  Soft-limit exceeded? Hard-limit exceeded?
+-------------------------------------------------------------------------------------------------------------------------------
+/mydir                                   200.0MB     80%(160.0MB)  200.0MB  0Bytes             Yes                  Yes
+</code></p>
+
+<h1 id="end-of-module-3">End of Module 3</h1>
+<p>This concludes <strong>Gluster Test Drive Module 3 - Volume Operations and Administration</strong>. You may continue now with Module 4, or return at any time to access the modules in any order you wish.</p></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            
+                <center>Copyright ©2016 Red Hat, Inc.</center>
+            
+            <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
+        </footer>
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script>
+        <script>var base_url = '..';</script>
+        <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+        <script src="../js/base.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            From here you can search these documents. Enter
+                            your search terms below.
+                        </p>
+                        <form role="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                            </div>
+                        </form>
+                        <div id="mkdocs-search-results"></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
