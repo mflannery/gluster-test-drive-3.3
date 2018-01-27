@@ -11,7 +11,7 @@ body {
 
 /* Beta lab bug reporting header */
 div.navbar.navbar-default.navbar-fixed-top:before {
-    content: "BETA LAB - Please send any bug or documentation error reports to: dustin at redhat dot com";
+    content: "Please send any bug or documentation error reports to: mkarg at redhat dot com";
     white-space: pre;
     display: block;
     font-family: "Overpass","Open Sans","Helvetica Neue",sans-serif;
