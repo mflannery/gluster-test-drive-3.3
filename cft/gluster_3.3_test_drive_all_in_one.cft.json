@@ -1,4 +1,4 @@
-{
+h
   "AWSTemplateFormatVersion" : "2010-09-09",
 
   "Description" : "Red Hat Gluster Storage 3.3 Test Drive",
@@ -679,7 +679,7 @@
             "Fn::Join": ["", [
               "#!/bin/bash -v\n",
               "useradd student\n",
-              "echo Redhat16 | passwd student --stdin\n",
+              "echo Redhat18 | passwd student --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
@@ -919,7 +919,7 @@
             "Fn::Join": ["", [
              "#!/bin/bash -v\n",
               "useradd student\n",
-              "echo Redhat16 | passwd student --stdin\n",
+              "echo Redhat18 | passwd student --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
@@ -1148,7 +1148,7 @@
             "Fn::Join": ["", [
               "#!/bin/bash -v\n",
               "useradd student\n",
-              "echo Redhat16 | passwd student --stdin\n",
+              "echo Redhat18 | passwd student --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
@@ -1377,7 +1377,7 @@
             "Fn::Join": ["", [
               "#!/bin/bash -v\n",
               "useradd student\n",
-              "echo Redhat16 | passwd student --stdin\n",
+              "echo Redhat18 | passwd student --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
@@ -1606,7 +1606,7 @@
             "Fn::Join": ["", [
               "#!/bin/bash -v\n",
               "useradd student\n",
-              "echo Redhat16 | passwd student --stdin\n",
+              "echo Redhat18 | passwd student --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
@@ -1835,7 +1835,7 @@
             "Fn::Join": ["", [
               "#!/bin/bash -v\n",
               "useradd student\n",
-              "echo Redhat16 | passwd student --stdin\n",
+              "echo Redhat18 | passwd student --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
@@ -2040,7 +2040,7 @@
             "Fn::Join": ["", [
               "#!/bin/bash -v\n",
               "useradd student\n",
-              "echo Redhat16 | passwd student --stdin\n",
+              "echo Redhat18 | passwd student --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
@@ -2162,7 +2162,7 @@
             "Fn::Join": ["", [
               "#!/bin/bash -v\n",
               "useradd student\n",
-              "echo Redhat16 | passwd student --stdin\n",
+              "echo Redhat18 | passwd student --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
@@ -2354,7 +2354,7 @@
 
   "Outputs" : {
    "rhgs1PublicIP" : {
-      "Description" : "rhgs1 Node Public IP Address Username: student Password: Redhat16",
+      "Description" : "rhgs1 Node Public IP Address Username: student Password: Redhat18",
       "Value" :  { "Ref" : "rhgs1NodeIPAddress" }
    },
    "winclientPublicIP" : {
@@ -2367,7 +2367,7 @@
    },
    "password" : {
       "Description" : "rhgs1 Node Password",
-      "Value" : "Redhat16"
+      "Value" : "Redhat18"
    }
 
   }
