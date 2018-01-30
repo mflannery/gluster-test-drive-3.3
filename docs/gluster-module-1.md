@@ -70,4 +70,7 @@
 
 ![](images/RHS_Gluster_Test_Drive-Module_1-dblack-201610-34.png)
 
+## Snapshots
+![](images/RHS_Gluster_Test_Drive_Module_1_mkarg_201801-36.png)
+
 ![](images/RHS_Gluster_Test_Drive-Module_1-dblack-201610-35.png)

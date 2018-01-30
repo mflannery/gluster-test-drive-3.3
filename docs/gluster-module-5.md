@@ -64,8 +64,10 @@ Then restart the glusterd service to make make the changes effective:
 ```
 
 IF NEEDED, CREATE THE DISTVOL VOLUME
-if you have not already done so as part of **Module 2**, deploy the distvol
-using the provided gdeploy configuration file.
+
+If you have not already done so as part of **Module 2**, deploy the ``distvol``
+volume, using the provided gdeploy configuration file.
+
 ```bash
 gdeploy -c ~/distvol.conf
 ```
@@ -192,6 +194,7 @@ Snaps Available           : 255
         Status                    : Stopped    
 ``
 
+
 ## ACCESS AND RESTORE SNAPSHOTS
 
 Snaphosts of volumes can only be accessed via FUSE (native) mounts. 
@@ -258,4 +261,66 @@ ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 All the files that have been deleted have been restored from the snapshot that was taken before the deletion.
 
 ## CONFIGURE SNAPSHOT BEHAVIOUR
+
+Since snapshots can easily fill up the available space on the gluster nodes,
+there are a few tunable parameters to prevent that from happening:
+
+- snap-max-hard-limit: Once the snapshot count reaches this limit, no further
+  snapshots can be created. The range is from 1 up to 256.
+- snap-max-soft-limit: This parameter is a percentage value and defaults to 90%.
+  It works together with the auto-delete feature. So once this soft-limit is
+  reached, the system wil delete the oldest snapshot. If auto-delete is
+  disabled, it will display a warning. 
+- auto-delete: If enabled, this option will work with snap-max-soft-limit as
+  described above. **Note** This is a global option and can not be set on a per-volume basis.
+
+Display the configuration values:
+```bash
+sudo gluster snapshot config distvol
+```
+``
+Snapshot System Configuration:
+snap-max-hard-limit : 256
+snap-max-soft-limit : 90%
+auto-delete : disable
+activate-on-create : disable
+
+Snapshot Volume Configuration:
+
+Volume : distvol
+snap-max-hard-limit : 256
+Effective snap-max-hard-limit : 256
+Effective snap-max-soft-limit : 230 (90%)
+``
+
+Set the maximum number of snapshots for ``distvol`` to 3
+```bash
+sudo gluster snapshot config distvol snap-max-hard-limit 3
+```
+``
+Changing snapshot-max-hard-limit will limit the creation of new snapshots if they exceed the new limit.
+Do you want to continue? (y/n) y
+snapshot config: snap-max-hard-limit for distvol set successfully
+``
+
+Now create 3 snapshots for distvol:
+```bash
+for i in {1..4}; do sudo gluster snapshot create snap$i distvol no-timestamp force; done
+```
+``
+snapshot create: success: Snap snap1 created successfully
+snapshot create: success: Snap snap2 created successfully
+snapshot create: success: Snap snap3 created successfully
+snapshot create: success: Snap snap4 created successfully
+Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not possible once hard-limit is reached.
+``
+
+If we create a 5th snapshot, we cross the pre-defined limit:
+```bash
+sudo gluster snapshot create snap5 distvol no-timestamp force
+```
+``
+snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 4, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
+Snapshot command failed``
+
 
