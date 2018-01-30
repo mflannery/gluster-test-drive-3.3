@@ -1,4 +1,4 @@
-h
+{
   "AWSTemplateFormatVersion" : "2010-09-09",
 
   "Description" : "Red Hat Gluster Storage 3.3 Test Drive",
