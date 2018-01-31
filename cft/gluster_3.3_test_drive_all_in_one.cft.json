@@ -1401,6 +1401,7 @@
               "#!/bin/bash -v\n",
               "useradd student\n",
               "echo Redhat18 | passwd student --stdin\n",
+              "echo Redhat18 | passwd root --stdin\n",
               "echo \"student ALL=(ALL) NOPASSWD: ALL\" | tee -a /etc/sudoers\n",
               "mkdir /home/student/.ssh\n",
               "cp /home/ec2-user/.ssh/authorized_keys /home/student/.ssh\n",
