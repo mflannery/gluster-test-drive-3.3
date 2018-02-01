@@ -1,4 +1,5 @@
-# Lab Guide <br/> Gluster Test Drive Module 3 <br/> Volume Operations and Administration
+#
+Lab Guide <br/> Gluster Test Drive Module 3 <br/> Volume Operations and Administration
 
 ## Lab Agenda
 
@@ -254,7 +255,7 @@ Add 200 new files to the **repvol** volume.
 for i in {001..200}; do echo hello$i > /rhgs/client/native/repvol/mydir/rebalanceme$i; done
 ```
 
-Confim the file count from the client. Note that we added 10 files in the self-heal section above, so the total file count should be 210.
+Confirm the file count from the client. Note that we added 10 files in the self-heal section above, so the total file count should be 210.
 
 ```bash
 ls /rhgs/client/native/repvol/mydir | wc -l
