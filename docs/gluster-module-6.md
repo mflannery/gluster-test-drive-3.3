@@ -166,7 +166,7 @@ done
 ### Simulate a datacenter outage
 
 We need to turn the master off completely, so that the slave can take over its
-functions. On **rhgs1** and **rhgs2** stop the glusterd
+functions. Stop the glusterd on **rhgs1**
 ```bash
 sudo systemctl stop glusterd
 ```
