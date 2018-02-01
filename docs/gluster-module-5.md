@@ -1,4 +1,3 @@
-# **THIS LAB IS A WORK IN PROGRESS**
 # Lab Guide <br/> Gluster Test Drive Module 5 <br/> Snapshot Operations and Administration
 
 ## Lab Agenda
@@ -272,21 +271,25 @@ there are a few tunable parameters to prevent that from happening:
   reached, the system wil delete the oldest snapshot. If auto-delete is
   disabled, it will display a warning. 
 - auto-delete: If enabled, this option will work with snap-max-soft-limit as
-  described above. **Note** This is a global option and can not be set on a per-volume basis.
+  described above. **Note:** This is a global option and can not be set on a per-volume basis.
 
 Display the configuration values:
 ```bash
 sudo gluster snapshot config distvol
 ```
+
+
 ``
 Snapshot System Configuration:
 snap-max-hard-limit : 256
 snap-max-soft-limit : 90%
 auto-delete : disable
 activate-on-create : disable
-
+``
+``
 Snapshot Volume Configuration:
-
+``
+``
 Volume : distvol
 snap-max-hard-limit : 256
 Effective snap-max-hard-limit : 256
@@ -297,11 +300,13 @@ Set the maximum number of snapshots for ``distvol`` to 3
 ```bash
 sudo gluster snapshot config distvol snap-max-hard-limit 3
 ```
+
 ``
 Changing snapshot-max-hard-limit will limit the creation of new snapshots if they exceed the new limit.
 Do you want to continue? (y/n) y
 snapshot config: snap-max-hard-limit for distvol set successfully
 ``
+
 
 Now create 3 snapshots for distvol:
 ```bash
@@ -314,6 +319,7 @@ snapshot create: success: Snap snap3 created successfully
 snapshot create: success: Snap snap4 created successfully
 Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not possible once hard-limit is reached.
 ``
+
 
 If we create a 5th snapshot, we cross the pre-defined limit:
 ```bash
