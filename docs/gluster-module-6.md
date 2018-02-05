@@ -1,7 +1,7 @@
 # **THIS LAB IS A WORK IN PROGRESS**
 # Lab Guide <br/> Gluster Test Drive Module 6 <br/> Geo-Replication
 
-## Lab Agenda
+## LAB AGENDA
 
 Welcome to the Gluster Test Drive Module 6 - Geo-Replication
 
@@ -10,7 +10,7 @@ Welcome to the Gluster Test Drive Module 6 - Geo-Replication
 - Disaster recovery: Promote slave to master
 - Failback: Bring master and slave back to their initial state
 
-## Getting Started
+## GETTING STARTED
 
 If you have not already done so, click the <img src="http://us-west-2-aws-training.s3.amazonaws.com/awsu-spl/spl02-working-ebs/media/image005.png"> button in the navigation bar above to launch your lab. If you are prompted for a token, use the one distributed to you (or credits you've purchased).
 
@@ -18,7 +18,7 @@ If you have not already done so, click the <img src="http://us-west-2-aws-traini
 
 ## LAB SETUP
 
-CONNECT TO THE LAB
+### CONNECT TO THE LAB
 
 connect to the **rhgs1** server instance, using its public IP address from the **Addl. Info** tab to the right. 
 ```bash
@@ -36,7 +36,7 @@ The cleanup.sh script in student's home will do the following:
 3. Create a ssh key for "root" and copy it to "rhgs4" since password-less root
    access is needed later on for the geo-replication.
 
-### Manual steps
+### MANUAL STEPS
 
 If you can't for some reason run the cleanup.sh script or don't want to, here are the manual steps.
 
@@ -69,7 +69,7 @@ sudo ssh-copy-id root@rhgs4
 The password for root is **"Redhat18"**
 
 
-### Set up a remote site
+### SET UP THE REMOTE SITE
 
 Build a second pool of trusted nodes on **rhgs4**
 ```bash
@@ -89,7 +89,7 @@ After these steps there are two clusters, consisting of 3 nodes each:
 We will set up a geo-replication with the master being in the "local" cluster and the slave in the "remote" cluster.
 
 
-### Create master and slave volumes
+### CREATE MASTER AND SLAVE VOLUMES
 
 On **rhgs1** create the master volume using the mastervol.conf file with
 gdeploy
@@ -123,7 +123,7 @@ sudo gluster volume geo-replication mastervol rhgs4::slavevol create push-pem
 ``Creating geo-replication session between mastervol & rhgs4::slavevol has been successful`` 
 
 
-### Start the geo-replication setting
+### START THE GEO-REPLICATION SESSION
 
 ```bash
 sudo gluster volume geo-replication mastervol rhgs4::slavevol start
@@ -163,7 +163,7 @@ done
 
 ## DISASTER RECOVERY
 
-### Simulate a datacenter outage
+### SIMULATE A DATACENTER OUTAGE
 
 We need to turn the master off completely, so that the slave can take over its
 functions. Stop the glusterd on **rhgs1**
@@ -177,14 +177,14 @@ sudo pkill glusterfsd
 sudo pkill python
 ```
 
-### Check client access
+### CHECK CLIENT ACCESS
 
 On **client1** check if the files are still accessible
 ```bash
 ls -l /rhgs/client/native/georep/mydir | wc -l
 ```
 
-### Promote the slave to temporary master
+### PROMOTE THE SLAVE TO TEMPORARY MASTER
 
 Now that rhgs1 and rhgs2 are dead, we need to make **rhgs4** the new, temporary,
 master
@@ -194,7 +194,7 @@ sudo gluster volume set slavevol geo-replication.indexing on
 sudo gluster volume set slavevol changelog on
 ```
 
-### Change client to use the temporary master
+### CHANGE CLIENT TO USE THE TEMPORARY MASTER
 
 On **client1** umount the volume from rhgs1 which is no longer accessible and use the slavevol from rhgs4
 

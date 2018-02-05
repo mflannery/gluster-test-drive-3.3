@@ -1,6 +1,6 @@
 # Lab Guide <br/> Gluster Test Drive Module 5 <br/> Snapshot Operations and Administration
 
-## Lab Agenda
+## LAB AGENDA
 
 Welcome to the Gluster Test Drive Module 5 - Snapshots
 
@@ -21,7 +21,7 @@ The most important features of snapshots are:
 
 Each snapshot creates as many bricks as the original volume has.
 
-## Getting Started
+## GETTING STARTED
 
 If you have not already done so, click the <img src="http://us-west-2-aws-training.s3.amazonaws.com/awsu-spl/spl02-working-ebs/media/image005.png"> button in the navigation bar above to launch your lab. If you are prompted for a token, use the one distributed to you (or credits you've purchased).
 
@@ -29,7 +29,7 @@ If you have not already done so, click the <img src="http://us-west-2-aws-traini
 
 ## LAB SETUP
 
-CONNECT TO THE LAB
+### CONNECT TO THE LAB
 
 connect to the **rhgs1** server instance, using its public IP address from the
 **Addl. Info** tab to the right. 
@@ -60,10 +60,9 @@ Then restart the glusterd service to make make the changes effective:
 # systemctl restart glusterd
 ```
 
-##IF NEEDED, CREATE THE DISTVOL VOLUME
+## OPTIONAL: CREATE THE DISTVOL VOLUME
 
-If you have not already done so as part of **Module 2**, deploy the ``distvol``
-volume, using the provided gdeploy configuration file.
+If you have not already done so as part of **Module 2**, deploy the ``distvol`` volume, using the provided gdeploy configuration file.
 
 ```bash
 gdeploy -c ~/distvol.conf
@@ -99,7 +98,7 @@ Make sure the ``nfs.disable`` attribute is set to off. In case it's not, run
 sudo gluster volume set distvol nfs.disable off
 ```
 
-## NFS Client Access                                                                   
+## NFS CLIENT ACCESS
 A Gluster volume can be accessed through multiple standard client protocols, as well as through specialized methods including the OpenStack Swift protocol and a direct API.  
                                                                                        
 For many common use cases, the well-established NFS protocol is used for ease of implementation and compatibility with existing applications and architectures. For some use cases, the NFS protocol may also offer a performance benefit over other access methods. 
@@ -258,17 +257,11 @@ All the files that have been deleted have been restored from the snapshot that w
 
 ## CONFIGURE SNAPSHOT BEHAVIOUR
 
-Since snapshots can easily fill up the available space on the gluster nodes,
-there are a few tunable parameters to prevent that from happening:
+Since snapshots can easily fill up the available space on the gluster nodes, there are a few tunable parameters to prevent that from happening:
 
-- snap-max-hard-limit: Once the snapshot count reaches this limit, no further
-  snapshots can be created. The range is from 1 up to 256.
-- snap-max-soft-limit: This parameter is a percentage value and defaults to 90%.
-  It works together with the auto-delete feature. So once this soft-limit is
-  reached, the system wil delete the oldest snapshot. If auto-delete is
-  disabled, it will display a warning. 
-- auto-delete: If enabled, this option will work with snap-max-soft-limit as
-  described above. **Note:** This is a global option and can not be set on a per-volume basis.
+- **snap-max-hard-limit**: Once the snapshot count reaches this limit, no further snapshots can be created. The range is from 1 up to 256.
+- **snap-max-soft-limit**: This parameter is a percentage value and defaults to 90%.  It works together with the auto-delete feature. So once this soft-limit is reached, the system wil delete the oldest snapshot. If auto-delete is disabled, it will display a warning. 
+- **auto-delete**: If enabled, this option will work with snap-max-soft-limit as described above. **Note:** This is a global option and can not be set on a per-volume basis.
 
 Display the configuration values:
 ```bash
