@@ -11,9 +11,7 @@ Welcome to the Gluster Test Drive Module 5 - Snapshots
 
 ## ABOUT SNAPSHOTS
 
-Snapshots are **point-in-time copies** of volumes, which can be used to protect
-data. They are read-only by default so data on them can't be accidentally
-deleted, corrupted or modified. 
+Snapshots are **point-in-time copies** of volumes, which can be used to protect data. They are read-only by default so data on them can't be accidentally deleted, corrupted or modified. 
 
 The most important features of snapshots are:
 
@@ -62,7 +60,7 @@ Then restart the glusterd service to make make the changes effective:
 # systemctl restart glusterd
 ```
 
-IF NEEDED, CREATE THE DISTVOL VOLUME
+##IF NEEDED, CREATE THE DISTVOL VOLUME
 
 If you have not already done so as part of **Module 2**, deploy the ``distvol``
 volume, using the provided gdeploy configuration file.
@@ -225,10 +223,9 @@ Now delete all the files in ``/rhgs/client/nfs/distvol/mydir/``
 rm -rf /rhgs/client/nfs/distvol/mydir/*
 ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 ```
-``ls: cannot access /rhgs/client/nfs/distvol/mydir/*: No such file or directory                                                                                                
-``
+```ls: cannot access /rhgs/client/nfs/distvol/mydir/*: No such file or directory``
 
-So there are no files left. 
+There are no files left, all 100 files have been deleted. 
 
 Go back to **rhgs1** and restore the original volume from the snapshot. 
 For this step the volume must be stopped
