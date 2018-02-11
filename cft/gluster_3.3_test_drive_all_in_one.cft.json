@@ -948,9 +948,9 @@
               "EOF\n",
               "ifup eth1\n",
               "ip route del default via 10.100.1.1 dev eth0  proto static  metric 100\n",
-     	      "#rpm -e rh-amazon-rhui-client\n",
-	          "#rpm -e rh-amazon-rhui-client-rhs30\n",
-     	      "#rm -rf /etc/yum.repos.d/*repo*\n"
+     	      "rpm -e rh-amazon-rhui-client\n",
+	          "rpm -e rh-amazon-rhui-client-rhs30\n",
+     	      "rm -rf /etc/yum.repos.d/*repo*\n"
             ]]
           }
         }
