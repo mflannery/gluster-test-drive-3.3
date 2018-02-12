@@ -208,7 +208,7 @@ sudo gluster volume start distvol
 
 ``volume start: distvol: success``
 
-## Automated Creation of a Replicate Volume
+## Automated Creation of a Replicated Volume
 
 ### About gdeploy and Replication
 Gluster volume configurations can become much more complicated than the basic example above as the scale of the environment grows and additional features are leveraged. In order to simplify and automate the deployment process, Red Hat has introduced an **Ansible**-based deployment tool called **gdeploy**. With gdeploy, an end-to-end Gluster architecture can be defined in a configuration file, and the entire deployment can be orchestrated with a single command.
