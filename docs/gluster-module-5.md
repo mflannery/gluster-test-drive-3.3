@@ -65,7 +65,7 @@ Then restart the glusterd service to make make the changes effective:
 If you have not already done so as part of **Module 2**, deploy the ``distvol`` volume, using the provided gdeploy configuration file.
 
 ```bash
-gdeploy -c ~/distvol.conf
+gdeploy -c ~/materials/gdeploy/distvol.conf
 ```
 Confirm the volume configuration.
 ```bash

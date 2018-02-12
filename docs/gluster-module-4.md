@@ -114,17 +114,17 @@ fstype=glusterfs
 client_mount_points=/rhgs/client/native/ecvol
 ```
 
-> **NOTE** You can check your work against the provided `/home/student/example/ecvol.conf` file.
+> **NOTE** You can check your work against the provided `/home/student/materials/gdeploy/ecvol.conf` file.
 
 
 ## Deploy and Review your Disperse Volume
 
-Using `gdeploy` and the `/home/student/ecvol.conf` file you've created, automate the deployment of your disperse **ecvol** volume.
+Using `gdeploy` and the `/home/student/materials/gdeploy/ecvol.conf` file you've created, automate the deployment of your disperse **ecvol** volume.
 
 > **NOTE** The `sudo` tool is not needed for the `gdeploy` command.
 
 ```bash
-gdeploy -c /home/student/ecvol.conf
+gdeploy -c /home/student/materials/gdeploy/ecvol.conf
 ```
 
 When the deployment completes, you should find that you have a properly-configured and started disperse Gluster volume.

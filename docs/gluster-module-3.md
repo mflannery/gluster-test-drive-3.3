@@ -30,7 +30,7 @@ ssh student@<rhgs1PublicIP>
 If you have not already done so as part of **Module 2**, deploy the **repvol** volume using the provided gdeploy configuration file.
 
 ```bash
-gdeploy -c ~/repvol.conf
+gdeploy -c ~/materials/gdeploy/repvol.conf
 ```
 Confirm the volume configuration.
 
@@ -302,7 +302,7 @@ sudo gluster volume info repvol
 You will use the `gdeploy` command to create the new brick backends for nodes rhgs3 through rhgs6, and to add these new bricks to the layout of the **repvol** volume. Take a look at the contents of the configuration file.
 
 ```bash
-cat ~/repvol-expand.conf
+cat ~/materials/gdeploy/repvol-expand.conf
 ```
 
 ``[hosts]``
@@ -327,7 +327,7 @@ cat ~/repvol-expand.conf
 Use `gdeploy` to make the volume change.
 
 ```bash
-gdeploy -c ~/repvol-expand.conf 
+gdeploy -c ~/materials/gdeploy/repvol-expand.conf 
 ```
 
 Take a look at the updated volume configuration. Note the changes to **Type** and **Number of Bricks**, as well as the additional bricks listed.

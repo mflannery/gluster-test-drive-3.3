@@ -220,7 +220,7 @@ You will now build a 2-brick *replicated* volume using the gdeploy method. A rep
 View the gdeploy configuration file with the below command.
 
 ```bash
-cat ~/repvol.conf
+cat ~/materials/gdeploy/repvol.conf
 ```
 
 ``[hosts]``
@@ -255,7 +255,7 @@ In order to use `gdeploy`, the node from which it is run requires passwordless s
 With passwordless ssh configured, you can deploy the **repvol** volume using the `gdeploy` command (NOTE because we rely on the ssh keys, you do not need to use `sudo` for this command).
 
 ```bash
-gdeploy -vv -c ~/repvol.conf
+gdeploy -vv -c ~/materials/gdeploy/repvol.conf
 ```
 
 ## Viewing Volume Details

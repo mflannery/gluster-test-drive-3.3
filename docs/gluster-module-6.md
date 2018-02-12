@@ -33,8 +33,7 @@ The cleanup.sh script in student's home will do the following:
 
 1. Stop and delete the volumes "repvol" and "distvol"
 2. Remove the nodes "rhgs4", "rhgs5" and "rhgs6" from the pool of trusted nodes
-3. Create a ssh key for "root" and copy it to "rhgs4" since password-less root
-   access is needed later on for the geo-replication.
+3. Create a ssh key for "root" and copy it to "rhgs4" since password-less root access is needed later on for the geo-replication.
 
 ### MANUAL STEPS
 
