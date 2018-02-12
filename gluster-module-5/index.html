@@ -92,6 +92,12 @@
 </li>
 
                     
+                        
+<li >
+    <a href="../gluster-module-6/">Module 6 - Geo-Replication and Disaster Recovery</a>
+</li>
+
+                    
                     </ul>
                 </li>
             
@@ -110,8 +116,8 @@
                         <i class="fa fa-arrow-left"></i> Previous
                     </a>
                 </li>
-                <li class="disabled">
-                    <a rel="prev" >
+                <li >
+                    <a rel="prev" href="../gluster-module-6/">
                         Next <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -125,22 +131,21 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#this-lab-is-a-work-in-progress">THIS LAB IS A WORK IN PROGRESS</a></li>
+        <li class="main active"><a href="#lab-guide-gluster-test-drive-module-5-snapshot-operations-and-administration">Lab Guide  Gluster Test Drive Module 5  Snapshot Operations and Administration</a></li>
         
-    
-        <li class="main "><a href="#lab-guide-gluster-test-drive-module-5-snapshot-operations-and-administration">Lab Guide  Gluster Test Drive Module 5  Snapshot Operations and Administration</a></li>
-        
-            <li><a href="#lab-agenda">Lab Agenda</a></li>
+            <li><a href="#lab-agenda">LAB AGENDA</a></li>
         
             <li><a href="#about-snapshots">ABOUT SNAPSHOTS</a></li>
         
-            <li><a href="#getting-started">Getting Started</a></li>
+            <li><a href="#getting-started">GETTING STARTED</a></li>
         
             <li><a href="#lab-setup">LAB SETUP</a></li>
         
             <li><a href="#snapshot-prerequisites">SNAPSHOT PREREQUISITES</a></li>
         
-            <li><a href="#nfs-client-access">NFS Client Access</a></li>
+            <li><a href="#optional-create-the-distvol-volume">OPTIONAL: CREATE THE DISTVOL VOLUME</a></li>
+        
+            <li><a href="#nfs-client-access">NFS CLIENT ACCESS</a></li>
         
             <li><a href="#creation-of-snapshots">CREATION OF SNAPSHOTS</a></li>
         
@@ -155,9 +160,8 @@
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="this-lab-is-a-work-in-progress"><strong>THIS LAB IS A WORK IN PROGRESS</strong></h1>
 <h1 id="lab-guide-gluster-test-drive-module-5-snapshot-operations-and-administration">Lab Guide <br/> Gluster Test Drive Module 5 <br/> Snapshot Operations and Administration</h1>
-<h2 id="lab-agenda">Lab Agenda</h2>
+<h2 id="lab-agenda">LAB AGENDA</h2>
 <p>Welcome to the Gluster Test Drive Module 5 - Snapshots</p>
 <ul>
 <li>Learn how snapshots are created and deleted</li>
@@ -166,9 +170,7 @@
 <li>Configure snapshot behaviour</li>
 </ul>
 <h2 id="about-snapshots">ABOUT SNAPSHOTS</h2>
-<p>Snapshots are <strong>point-in-time copies</strong> of volumes, which can be used to protect<br />
-data. They are read-only by default so data on them can&rsquo;t be accidentally<br />
-deleted, corrupted or modified. </p>
+<p>Snapshots are <strong>point-in-time copies</strong> of volumes, which can be used to protect data. They are read-only by default so data on them can&rsquo;t be accidentally deleted, corrupted or modified. </p>
 <p>The most important features of snapshots are:</p>
 <ul>
 <li>Crash consistency</li>
@@ -176,13 +178,13 @@ deleted, corrupted or modified. </p>
 <li>Quorum based</li>
 </ul>
 <p>Each snapshot creates as many bricks as the original volume has.</p>
-<h2 id="getting-started">Getting Started</h2>
+<h2 id="getting-started">GETTING STARTED</h2>
 <p>If you have not already done so, click the <img src="http://us-west-2-aws-training.s3.amazonaws.com/awsu-spl/spl02-working-ebs/media/image005.png"> button in the navigation bar above to launch your lab. If you are prompted for a token, use the one distributed to you (or credits you&rsquo;ve purchased).</p>
 <blockquote>
 <p><strong>NOTE</strong> It may take <strong>up to 10 minutes</strong> for your lab systems to start up before you can access them.</p>
 </blockquote>
 <h2 id="lab-setup">LAB SETUP</h2>
-<p>CONNECT TO THE LAB</p>
+<h3 id="connect-to-the-lab">CONNECT TO THE LAB</h3>
 <p>connect to the <strong>rhgs1</strong> server instance, using its public IP address from the<br />
 <strong>Addl. Info</strong> tab to the right. </p>
 <div class="codehilite"><pre><span></span>ssh student@&lt;rhgs1PublicIP&gt;
@@ -210,10 +212,9 @@ following line:</p>
 </pre></div>
 
 
-<p>IF NEEDED, CREATE THE DISTVOL VOLUME</p>
-<p>If you have not already done so as part of <strong>Module 2</strong>, deploy the <code>distvol</code><br />
-volume, using the provided gdeploy configuration file.</p>
-<div class="codehilite"><pre><span></span>gdeploy -c ~/distvol.conf
+<h2 id="optional-create-the-distvol-volume">OPTIONAL: CREATE THE DISTVOL VOLUME</h2>
+<p>If you have not already done so as part of <strong>Module 2</strong>, deploy the <code>distvol</code> volume, using the provided gdeploy configuration file.</p>
+<div class="codehilite"><pre><span></span>gdeploy -c ~/materials/gdeploy/distvol.conf
 </pre></div>
 
 
@@ -248,7 +249,7 @@ features.quota-deem-statfs: off
 </pre></div>
 
 
-<h2 id="nfs-client-access">NFS Client Access</h2>
+<h2 id="nfs-client-access">NFS CLIENT ACCESS</h2>
 <p>A Gluster volume can be accessed through multiple standard client protocols, as well as through specialized methods including the OpenStack Swift protocol and a direct API.  </p>
 <p>For many common use cases, the well-established NFS protocol is used for ease of implementation and compatibility with existing applications and architectures. For some use cases, the NFS protocol may also offer a performance benefit over other access methods. </p>
 <p>You can connect to the <strong>client1</strong> system via <code>ssh</code> directly from the rhgs1 system.    </p>
@@ -348,8 +349,8 @@ ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l
 </pre></div>
 
 
-<p><code>ls: cannot access /rhgs/client/nfs/distvol/mydir/*: No such file or directory</code></p>
-<p>So there are no files left. </p>
+<p><code>`ls: cannot access /rhgs/client/nfs/distvol/mydir/*: No such file or directory</code></p>
+<p>There are no files left, all 100 files have been deleted. </p>
 <p>Go back to <strong>rhgs1</strong> and restore the original volume from the snapshot. <br />
 For this step the volume must be stopped</p>
 <div class="codehilite"><pre><span></span>sudo gluster volume stop distvol 
@@ -378,17 +379,11 @@ volume stop: distvol: success</code></p>
 <p><code>100</code></p>
 <p>All the files that have been deleted have been restored from the snapshot that was taken before the deletion.</p>
 <h2 id="configure-snapshot-behaviour">CONFIGURE SNAPSHOT BEHAVIOUR</h2>
-<p>Since snapshots can easily fill up the available space on the gluster nodes,<br />
-there are a few tunable parameters to prevent that from happening:</p>
+<p>Since snapshots can easily fill up the available space on the gluster nodes, there are a few tunable parameters to prevent that from happening:</p>
 <ul>
-<li>snap-max-hard-limit: Once the snapshot count reaches this limit, no further<br />
-  snapshots can be created. The range is from 1 up to 256.</li>
-<li>snap-max-soft-limit: This parameter is a percentage value and defaults to 90%.<br />
-  It works together with the auto-delete feature. So once this soft-limit is<br />
-  reached, the system wil delete the oldest snapshot. If auto-delete is<br />
-  disabled, it will display a warning. </li>
-<li>auto-delete: If enabled, this option will work with snap-max-soft-limit as<br />
-  described above. <strong>Note:</strong> This is a global option and can not be set on a per-volume basis.</li>
+<li><strong>snap-max-hard-limit</strong>: Once the snapshot count reaches this limit, no further snapshots can be created. The range is from 1 up to 256.</li>
+<li><strong>snap-max-soft-limit</strong>: This parameter is a percentage value and defaults to 90%.  It works together with the auto-delete feature. So once this soft-limit is reached, the system wil delete the oldest snapshot. If auto-delete is disabled, it will display a warning. </li>
+<li><strong>auto-delete</strong>: If enabled, this option will work with snap-max-soft-limit as described above. <strong>Note:</strong> This is a global option and can not be set on a per-volume basis.</li>
 </ul>
 <p>Display the configuration values:</p>
 <div class="codehilite"><pre><span></span>sudo gluster snapshot config distvol
@@ -435,7 +430,7 @@ Snapshot command failed</code></p></div>
         <footer class="col-md-12">
             <hr>
             
-                <center>Copyright ©2016 Red Hat, Inc.</center>
+                <center>Copyright ©2018 Red Hat, Inc.</center>
             
             <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
         </footer>

@@ -92,6 +92,12 @@
 </li>
 
                     
+                        
+<li >
+    <a href="../gluster-module-6/">Module 6 - Geo-Replication and Disaster Recovery</a>
+</li>
+
+                    
                     </ul>
                 </li>
             
@@ -125,21 +131,55 @@
             <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#lab-guide-gluster-test-drive-module-3-volume-operations-and-administration">Lab Guide  Gluster Test Drive Module 3  Volume Operations and Administration</a></li>
+        <li class="main active"><a href="#lab-agenda">Lab Agenda</a></li>
         
-            <li><a href="#lab-agenda">Lab Agenda</a></li>
+    
+        <li class="main "><a href="#getting-started">Getting Started</a></li>
         
-            <li><a href="#getting-started">Getting Started</a></li>
+    
+        <li class="main "><a href="#lab-setup">Lab Setup</a></li>
         
-            <li><a href="#lab-setup">Lab Setup</a></li>
+            <li><a href="#connect-to-the-lab">Connect to the Lab</a></li>
         
-            <li><a href="#volume-self-healing">Volume Self-Healing</a></li>
+            <li><a href="#if-needed-create-the-repvol-volume">If Needed, Create the repvol Volume</a></li>
         
-            <li><a href="#volume-expansion-and-rebalance">Volume Expansion and Rebalance</a></li>
+    
+        <li class="main "><a href="#volume-self-healing">Volume Self-Healing</a></li>
         
-            <li><a href="#analyzing-volume-performance">Analyzing Volume Performance</a></li>
+            <li><a href="#about-self-healing">About Self-Healing</a></li>
         
-            <li><a href="#administration-of-directory-quotas">Administration of Directory Quotas</a></li>
+            <li><a href="#offlining-a-brick">Offlining a Brick</a></li>
+        
+            <li><a href="#writing-files-to-the-degraded-volume">Writing Files to the Degraded Volume</a></li>
+        
+            <li><a href="#viewing-the-volume-state">Viewing the Volume State</a></li>
+        
+            <li><a href="#triggering-the-self-heal">Triggering the Self-Heal</a></li>
+        
+    
+        <li class="main "><a href="#volume-expansion-and-rebalance">Volume Expansion and Rebalance</a></li>
+        
+            <li><a href="#about-rebalance">About Rebalance</a></li>
+        
+            <li><a href="#about-distributed-replicated-volumes">About Distributed-Replicated Volumes</a></li>
+        
+            <li><a href="#add-files-to-the-repvol-volume">Add Files to the repvol Volume</a></li>
+        
+            <li><a href="#expand-the-repvol-volume">Expand the repvol Volume</a></li>
+        
+            <li><a href="#the-gstatus-command">The gstatus Command</a></li>
+        
+    
+        <li class="main "><a href="#analyzing-volume-performance">Analyzing Volume Performance</a></li>
+        
+            <li><a href="#volume-profiling">Volume Profiling</a></li>
+        
+            <li><a href="#volume-top">Volume Top</a></li>
+        
+    
+        <li class="main "><a href="#administration-of-directory-quotas">Administration of Directory Quotas</a></li>
+        
+            <li><a href="#about-quotas">About Quotas</a></li>
         
     
         <li class="main "><a href="#end-of-module-3">End of Module 3</a></li>
@@ -149,7 +189,8 @@
 </div></div>
             <div class="col-md-9" role="main">
 
-<h1 id="lab-guide-gluster-test-drive-module-3-volume-operations-and-administration">Lab Guide <br/> Gluster Test Drive Module 3 <br/> Volume Operations and Administration</h1>
+<h1 id="_1"></h1>
+<p>Lab Guide <br/> Gluster Test Drive Module 3 <br/> Volume Operations and Administration</p>
 <h2 id="lab-agenda">Lab Agenda</h2>
 <p>Welcome to the Gluster Test Drive Module 3 - Volume Operations and Administration. In this lab you will:</p>
 <ul>
@@ -172,7 +213,7 @@
 
 <h3 id="if-needed-create-the-repvol-volume">If Needed, Create the repvol Volume</h3>
 <p>If you have not already done so as part of <strong>Module 2</strong>, deploy the <strong>repvol</strong> volume using the provided gdeploy configuration file.</p>
-<div class="codehilite"><pre><span></span>gdeploy -c ~/repvol.conf
+<div class="codehilite"><pre><span></span>gdeploy -c ~/materials/gdeploy/repvol.conf
 </pre></div>
 
 
@@ -359,7 +400,7 @@ sudo chmod <span class="m">777</span> /rhgs/client/native/repvol/mydir
 </pre></div>
 
 
-<p>Confim the file count from the client. Note that we added 10 files in the self-heal section above, so the total file count should be 210.</p>
+<p>Confirm the file count from the client. Note that we added 10 files in the self-heal section above, so the total file count should be 210.</p>
 <div class="codehilite"><pre><span></span>ls /rhgs/client/native/repvol/mydir <span class="p">|</span> wc -l
 </pre></div>
 
@@ -394,7 +435,7 @@ sudo chmod <span class="m">777</span> /rhgs/client/native/repvol/mydir
 <code>Options Reconfigured:</code><br />
 <code>performance.readdir-ahead: on</code></p>
 <p>You will use the <code>gdeploy</code> command to create the new brick backends for nodes rhgs3 through rhgs6, and to add these new bricks to the layout of the <strong>repvol</strong> volume. Take a look at the contents of the configuration file.</p>
-<div class="codehilite"><pre><span></span>cat ~/repvol-expand.conf
+<div class="codehilite"><pre><span></span>cat ~/materials/gdeploy/repvol-expand.conf
 </pre></div>
 
 
@@ -417,7 +458,7 @@ sudo chmod <span class="m">777</span> /rhgs/client/native/repvol/mydir
 <code>volname=rhgs1:repvol</code><br />
 <code>bricks=rhgs3:/rhgs/brick_xvdc/repvol,rhgs4:/rhgs/brick_xvdc/repvol,rhgs5:/rhgs/brick_xvdc/repvol,rhgs6:/rhgs/brick_xvdc/repvol</code></p>
 <p>Use <code>gdeploy</code> to make the volume change.</p>
-<div class="codehilite"><pre><span></span>gdeploy -c ~/repvol-expand.conf 
+<div class="codehilite"><pre><span></span>gdeploy -c ~/materials/gdeploy/repvol-expand.conf 
 </pre></div>
 
 
@@ -721,7 +762,7 @@ sudo gluster volume <span class="nb">set</span> repvol features.soft-timeout <sp
         <footer class="col-md-12">
             <hr>
             
-                <center>Copyright ©2016 Red Hat, Inc.</center>
+                <center>Copyright ©2018 Red Hat, Inc.</center>
             
             <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
         </footer>

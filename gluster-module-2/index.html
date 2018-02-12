@@ -92,6 +92,12 @@
 </li>
 
                     
+                        
+<li >
+    <a href="../gluster-module-6/">Module 6 - Geo-Replication and Disaster Recovery</a>
+</li>
+
+                    
                     </ul>
                 </li>
             
@@ -337,7 +343,7 @@ rhgs6:/rhgs/brick_xvdb/distvol
 <p>For this replicated volume deployment, the backing filesystems have <em>not</em> been pre-configured as in the above distributed volume example. The provided gdeploy configuration file includes all of the information needed to setup the <code>/dev/xvdc</code> block devices with <em>LVM thin provisioning</em> and format and mount an <em>XFS filesystem</em>. It then further defines the Gluster volume architecture for your <strong>repvol</strong> volume.</p>
 </blockquote>
 <p>View the gdeploy configuration file with the below command.</p>
-<div class="codehilite"><pre><span></span>cat ~/repvol.conf
+<div class="codehilite"><pre><span></span>cat ~/materials/gdeploy/repvol.conf
 </pre></div>
 
 
@@ -368,7 +374,7 @@ rhgs6:/rhgs/brick_xvdb/distvol
 <code>for i in {1..6}; do ssh-copy-id -i ~/.ssh/id_rsa root@rhgs$i; done</code></p>
 <h3 id="create-the-replicated-volume">Create the Replicated Volume</h3>
 <p>With passwordless ssh configured, you can deploy the <strong>repvol</strong> volume using the <code>gdeploy</code> command (NOTE because we rely on the ssh keys, you do not need to use <code>sudo</code> for this command).</p>
-<div class="codehilite"><pre><span></span>gdeploy -vv -c ~/repvol.conf
+<div class="codehilite"><pre><span></span>gdeploy -vv -c ~/materials/gdeploy/repvol.conf
 </pre></div>
 
 
@@ -674,7 +680,7 @@ sudo mount -t glusterfs rhgs1:repvol /rhgs/client/native/repvol
         <footer class="col-md-12">
             <hr>
             
-                <center>Copyright ©2016 Red Hat, Inc.</center>
+                <center>Copyright ©2018 Red Hat, Inc.</center>
             
             <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</center>
         </footer>
