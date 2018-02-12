@@ -654,7 +654,7 @@
               "IPV6INIT=\"no\"\n",
               "EOF\n",
               "nmcli connection modify eth0 ipv4.never-default yes\n",
-              "nmcli device disconnect eth0 && nmcil device connect eth0\n",
+              "nmcli device disconnect eth0 && nmcli device connect eth0\n",
               "ifup eth1\n",
               "git clone https://github.com/red-hat-storage/gluster-test-drive-3.3-files.git materials\n",
               "chown -R student:student materials\n",
