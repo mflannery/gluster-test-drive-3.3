@@ -197,7 +197,7 @@ volumes. By default bricks communicate via privileged ports, but the number of<b
 such ports is limited to 1024. In order to support up to 256 snapshots per<br />
 volume the glusterd must be allowed to use non-privileged ports:</p>
 <p>Permit insecure ports for the volume for which snapshots will be used:</p>
-<div class="codehilite"><pre><span></span><span class="c1"># gluster volume set repvol server.allow-insecure on</span>
+<div class="codehilite"><pre><span></span><span class="c1"># sudo gluster volume set repvol server.allow-insecure on</span>
 </pre></div>
 
 
@@ -208,7 +208,7 @@ following line:</p>
 
 
 <p>Then restart the glusterd service to make make the changes effective:</p>
-<div class="codehilite"><pre><span></span><span class="c1"># systemctl restart glusterd</span>
+<div class="codehilite"><pre><span></span><span class="c1"># sudo systemctl restart glusterd</span>
 </pre></div>
 
 
@@ -258,13 +258,13 @@ features.quota-deem-statfs: off
 
 
 <p>Here, on the RHEL client, you will mount via NFS the Gluster <strong>distvol</strong> volume you created above.                                                                            </p>
-<div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/nfs/distvol                                                 
-sudo mount -t nfs rhgs1:/distvol /rhgs/client/nfs/distvol                              
+<div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/nfs/distvol 
+sudo mount -t nfs rhgs1:/distvol /rhgs/client/nfs/distvol 
 </pre></div>
 
 
 <p>Check the mount and observe the output.                                                </p>
-<div class="codehilite"><pre><span></span>df -h /rhgs/client/nfs/distvol                                                         
+<div class="codehilite"><pre><span></span>df -h /rhgs/client/nfs/distvol 
 </pre></div>
 
 
@@ -333,7 +333,7 @@ In order to do that snapshots must be activated.</p>
 
 
 <p>Mount the snapshot using</p>
-<div class="codehilite"><pre><span></span>sudo mount -t glusters rhgs1:/snaps/snap1/distvol /rhgs/snaps/snap1
+<div class="codehilite"><pre><span></span>sudo mount -t glusterfs rhgs1:/snaps/snap1/distvol /rhgs/snaps/snap1
 </pre></div>
 
 
@@ -349,8 +349,14 @@ ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l
 </pre></div>
 
 
-<p><code>`ls: cannot access /rhgs/client/nfs/distvol/mydir/*: No such file or directory</code></p>
+<p><code>0</code></p>
 <p>There are no files left, all 100 files have been deleted. </p>
+<p>Check if the files are still available in the snapshot <strong>snap1</strong></p>
+<div class="codehilite"><pre><span></span>ls /rhgs/snaps/snap1/mydir/ <span class="p">|</span> wc -l
+</pre></div>
+
+
+<p>``100```</p>
 <p>Go back to <strong>rhgs1</strong> and restore the original volume from the snapshot. <br />
 For this step the volume must be stopped</p>
 <div class="codehilite"><pre><span></span>sudo gluster volume stop distvol 
@@ -361,12 +367,14 @@ For this step the volume must be stopped</p>
 volume stop: distvol: success</code></p>
 <p>Now restore the volume from the snapshot <code>snap1</code></p>
 <div class="codehilite"><pre><span></span>sudo gluster snapshot restore snap1
+Restore operation will replace the original volume with the snapshotted volume.
+Do you still want to <span class="k">continue</span>? <span class="o">(</span>y/n<span class="o">)</span> y
 </pre></div>
 
 
 <p><code>Snapshot restore: snap1: Snap restored successfully</code></p>
 <p>Trigger a self-heal:</p>
-<div class="codehilite"><pre><span></span>gluster volume heal distvol full
+<div class="codehilite"><pre><span></span>sudo gluster volume heal distvol full
 </pre></div>
 
 
