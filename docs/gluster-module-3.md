@@ -350,7 +350,8 @@ sudo gluster volume info repvol
 ``Brick5: rhgs5:/rhgs/brick_xvdc/repvol``
 ``Brick6: rhgs6:/rhgs/brick_xvdc/repvol``
 ``Options Reconfigured:``
-``performance.readdir-ahead: on``
+``transport.address-family: inet`` 
+``nfs.disable: off``
 
 Start the rebalance operation on the **repvol** volume.
 

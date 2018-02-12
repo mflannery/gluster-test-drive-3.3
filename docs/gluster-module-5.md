@@ -46,7 +46,7 @@ volume the glusterd must be allowed to use non-privileged ports:
 
 Permit insecure ports for the volume for which snapshots will be used:
 ```bash
-# gluster volume set repvol server.allow-insecure on
+# sudo gluster volume set repvol server.allow-insecure on
 ```
 
 Edit ``/etc/glusterfs/glusterd.vol`` in every cluster node, and add the
@@ -57,7 +57,7 @@ option rpc-auth-allow-insecure on
 
 Then restart the glusterd service to make make the changes effective:
 ```bash
-# systemctl restart glusterd
+# sudo systemctl restart glusterd
 ```
 
 ## OPTIONAL: CREATE THE DISTVOL VOLUME
@@ -112,14 +112,14 @@ ssh student@client1
 Here, on the RHEL client, you will mount via NFS the Gluster **distvol** volume you created above.                                                                            
                                                                                        
 ```bash                                                                                
-sudo mkdir -p /rhgs/client/nfs/distvol                                                 
-sudo mount -t nfs rhgs1:/distvol /rhgs/client/nfs/distvol                              
+sudo mkdir -p /rhgs/client/nfs/distvol 
+sudo mount -t nfs rhgs1:/distvol /rhgs/client/nfs/distvol 
 ```                                                                                    
                                                                                        
 Check the mount and observe the output.                                                
                                                                                        
 ```bash                                                                                
-df -h /rhgs/client/nfs/distvol                                                         
+df -h /rhgs/client/nfs/distvol 
 ```                                                                                    
                                                                                        
 ``Filesystem      Size  Used Avail Use% Mounted on``                                   
@@ -208,7 +208,7 @@ sudo mkdir -p /rhgs/snaps/snap1
 
 Mount the snapshot using
 ```bash
-sudo mount -t glusters rhgs1:/snaps/snap1/distvol /rhgs/snaps/snap1
+sudo mount -t glusterfs rhgs1:/snaps/snap1/distvol /rhgs/snaps/snap1
 ```
 
 Check the contents of the **read-only** snapshot
@@ -222,9 +222,15 @@ Now delete all the files in ``/rhgs/client/nfs/distvol/mydir/``
 rm -rf /rhgs/client/nfs/distvol/mydir/*
 ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 ```
-```ls: cannot access /rhgs/client/nfs/distvol/mydir/*: No such file or directory``
+``0``
 
 There are no files left, all 100 files have been deleted. 
+
+Check if the files are still available in the snapshot **snap1**
+```bash
+ls /rhgs/snaps/snap1/mydir/ | wc -l
+```
+``100```
 
 Go back to **rhgs1** and restore the original volume from the snapshot. 
 For this step the volume must be stopped
@@ -238,12 +244,15 @@ volume stop: distvol: success``
 Now restore the volume from the snapshot ``snap1``
 ```bash
 sudo gluster snapshot restore snap1
+Restore operation will replace the original volume with the snapshotted volume.
+Do you still want to continue? (y/n) y
 ```
+
 ``Snapshot restore: snap1: Snap restored successfully``
 
 Trigger a self-heal:
 ```bash
-gluster volume heal distvol full
+sudo gluster volume heal distvol full
 ```
 Once the snapshot is restored it will be deleted. 
 
