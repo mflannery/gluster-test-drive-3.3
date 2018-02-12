@@ -577,8 +577,9 @@
               "yum -y install redhat-storage-server-3.3.1.0-1.el7rhgs gdeploy-2.0.2-19.el7rhgs ansible-2.3.2.0-1.el7\n",
               "yum -y groupinstall RH-Gluster-Samba-Server\n",
               "yum -y install vim-enhanced emacs\n",
-	      "echo \"fix for reported library error in lab\"\n",
-	      "yum -y install krb5-libs\n",
+              "yum -y install git\n",
+	 	      "echo \"fix for reported library error in lab\"\n",
+	          "yum -y install krb5-libs\n",
               "systemctl enable smb.service\n",
               "systemctl start smb.service\n",
               "tuned-adm profile rhgs-sequential-io\n",
@@ -790,9 +791,9 @@
               "nmcli connection modify eth0 ipv4.never-default yes\n",
               "nmcli device disconnect eth0 && nmcil device connect eth0\n",
               "ifup eth1\n",
-     	      "rpm -e rh-amazon-rhui-client\n",
-	          "rpm -e rh-amazon-rhui-client-rhs30\n",
-     	      "rm -rf /etc/yum.repos.d/*repo*\n"
+     	      "#rpm -e rh-amazon-rhui-client\n",
+	          "#rpm -e rh-amazon-rhui-client-rhs30\n",
+     	      "#rm -rf /etc/yum.repos.d/*repo*\n"
             ]]
           }
         }
