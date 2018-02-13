@@ -93,19 +93,19 @@ We will set up a geo-replication with the master being in the "local" cluster an
 On **rhgs1** create the master volume using the mastervol.conf file with
 gdeploy
 ```bash
-gdeploy -c ~/mastervol.conf
+gdeploy -c ~/materials/gdeploy/mastervol.conf
 ```
   
 
 On **rhgs4** create the slave volume using the slavevol.conf file with gdeploy
 ```bash
-gdeploy -c ~/slavevol.conf
+gdeploy -c ~/materials/gdeploy/slavevol.conf
 ```
 
 
 ### CREATE THE GEO-REPLICATION SESSION
 
-First a common pem pub file needs to be created
+First a common pem pub file needs to be created, back on **rhgs1**
 
 ```bash
 sudo gluster system:: execute gsec_create
@@ -147,9 +147,9 @@ sudo gluster volume geo-replication mastervol rhgs4::slavevol status
 On **client1** mount the geo-replicated volume from **rhgs1** and create files on it:
 
 ```bash
-sudo mkdir /rhgs/client/native/georep
-sudo mount -t glusterfs rhgs1:clientvol /rhgs/client/native/georep
-sudo mkdir /rhgs/client/native/georep/mydir
+sudo mkdir -p /rhgs/client/native/georep
+sudo mount -t glusterfs rhgs1:mastervol /rhgs/client/native/georep
+sudo mkdir -p /rhgs/client/native/georep/mydir
 sudo chmod 777 /rhgs/client/native/georep/mydir
 ```
 
@@ -165,7 +165,9 @@ done
 ### SIMULATE A DATACENTER OUTAGE
 
 We need to turn the master off completely, so that the slave can take over its
-functions. Stop the glusterd on **rhgs1**
+functions. Stop the glusterd on **rhgs1** AND **rhgs2** since it's a replicated
+volume
+
 ```bash
 sudo systemctl stop glusterd
 ```
@@ -186,7 +188,7 @@ ls -l /rhgs/client/native/georep/mydir | wc -l
 ### PROMOTE THE SLAVE TO TEMPORARY MASTER
 
 Now that rhgs1 and rhgs2 are dead, we need to make **rhgs4** the new, temporary,
-master
+master. On **rhgs4** run
 
 ```bash
 sudo gluster volume set slavevol geo-replication.indexing on
@@ -206,6 +208,10 @@ Check the contents of /rhgs/client/native/georep/mydir
 ```bash
 ls -l /rhgs/client/native/georep/mydir | wc -l
 ```
-``100``
+``50``
+
+### REVERT BACK TO THE ORIGINAL MASTER
+
+tbd
 
 
