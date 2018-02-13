@@ -242,17 +242,17 @@ sudo gluster peer probe rhgs6
 <h3 id="create-master-and-slave-volumes">CREATE MASTER AND SLAVE VOLUMES</h3>
 <p>On <strong>rhgs1</strong> create the master volume using the mastervol.conf file with<br />
 gdeploy</p>
-<div class="codehilite"><pre><span></span>gdeploy -c ~/mastervol.conf
+<div class="codehilite"><pre><span></span>gdeploy -c ~/materials/gdeploy/mastervol.conf
 </pre></div>
 
 
 <p>On <strong>rhgs4</strong> create the slave volume using the slavevol.conf file with gdeploy</p>
-<div class="codehilite"><pre><span></span>gdeploy -c ~/slavevol.conf
+<div class="codehilite"><pre><span></span>gdeploy -c ~/materials/gdeploy/slavevol.conf
 </pre></div>
 
 
 <h3 id="create-the-geo-replication-session">CREATE THE GEO-REPLICATION SESSION</h3>
-<p>First a common pem pub file needs to be created</p>
+<p>First a common pem pub file needs to be created, back on <strong>rhgs1</strong></p>
 <div class="codehilite"><pre><span></span>sudo gluster system:: execute gsec_create
 </pre></div>
 
@@ -282,9 +282,9 @@ gdeploy</p>
 <p><strong>NOTE</strong> It might take a moment to reach this state, you will possibly see a status of &ldquo;Initializing&rdquo; shortly. </p>
 <h3 id="client-access">Client access</h3>
 <p>On <strong>client1</strong> mount the geo-replicated volume from <strong>rhgs1</strong> and create files on it:</p>
-<div class="codehilite"><pre><span></span>sudo mkdir /rhgs/client/native/georep
-sudo mount -t glusterfs rhgs1:clientvol /rhgs/client/native/georep
-sudo mkdir /rhgs/client/native/georep/mydir
+<div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/native/georep
+sudo mount -t glusterfs rhgs1:mastervol /rhgs/client/native/georep
+sudo mkdir -p /rhgs/client/native/georep/mydir
 sudo chmod <span class="m">777</span> /rhgs/client/native/georep/mydir
 </pre></div>
 
@@ -298,7 +298,8 @@ sudo chmod <span class="m">777</span> /rhgs/client/native/georep/mydir
 <h2 id="disaster-recovery">DISASTER RECOVERY</h2>
 <h3 id="simulate-a-datacenter-outage">SIMULATE A DATACENTER OUTAGE</h3>
 <p>We need to turn the master off completely, so that the slave can take over its<br />
-functions. Stop the glusterd on <strong>rhgs1</strong></p>
+functions. Stop the glusterd on <strong>rhgs1</strong> AND <strong>rhgs2</strong> since it&rsquo;s a replicated<br />
+volume</p>
 <div class="codehilite"><pre><span></span>sudo systemctl stop glusterd
 </pre></div>
 
@@ -317,7 +318,7 @@ sudo pkill python
 
 <h3 id="promote-the-slave-to-temporary-master">PROMOTE THE SLAVE TO TEMPORARY MASTER</h3>
 <p>Now that rhgs1 and rhgs2 are dead, we need to make <strong>rhgs4</strong> the new, temporary,<br />
-master</p>
+master. On <strong>rhgs4</strong> run</p>
 <div class="codehilite"><pre><span></span>sudo gluster volume <span class="nb">set</span> slavevol geo-replication.indexing on
 sudo gluster volume <span class="nb">set</span> slavevol changelog on
 </pre></div>
@@ -335,7 +336,9 @@ sudo mount -t glusterfs rhgs4:slavevol /rhgs/client/native/georep
 </pre></div>
 
 
-<p><code>100</code></p></div>
+<p><code>50</code></p>
+<h3 id="revert-back-to-the-original-master">REVERT BACK TO THE ORIGINAL MASTER</h3>
+<p>tbd</p></div>
         </div>
 
         <footer class="col-md-12">
