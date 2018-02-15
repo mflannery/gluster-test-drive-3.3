@@ -29,54 +29,21 @@ ssh student@<rhgs1PublicIP>
 
 If you have gone through Module 2 before, it's necessary to revert some of the steps taken in there. 
 
-The cleanup.sh script in student's home will do the following:
+The ansible script **module6**  home will do the following:
 
-1. Stop and delete the volumes "repvol" and "distvol"
-2. Remove the nodes "rhgs4", "rhgs5" and "rhgs6" from the pool of trusted nodes
+1. Stop and delete the volumes "repvol" and "distvol" if they exist.
+2. Split up the existing cluster into 2 separate clusters
 3. Create a ssh key for "root" and copy it to "rhgs4" since password-less root access is needed later on for the geo-replication.
+4. Copy required materials to **rhgs4**
 
-### MANUAL STEPS
-
-If you can't for some reason run the cleanup.sh script or don't want to, here are the manual steps.
-
-
-Stop and delete the volumes "repvol" and "distvol"
+Run the ansible script
 ```bash
-sudo gluster volume stop distvol
-sudo gluster volume delete distvol
+ansible-playbook -i ~/materials/ansible/inventory
+~/materials/ansible/module6.yaml
 ```
 
-```bash
-sudo gluster volume stop repvol
-sudo gluster volume delete distvol
-```
+Once the script has finished, two separate clusters are set up
 
-Remove the nodes "rhgs4", "rhgs5" and "rhgs6" from the pool of trusted nodes
-
-```bash
-sudo gluster peer detach rhgs4
-sudo gluster peer detach rhgs5
-sudo gluster peer detach rhgs6
-```
-
- Create a ssh key for "root" and copy it to "rhgs4"
-```bash
-sudo ssh-keygen -t rsa -f /root/.ssh/id.rsa -q -P ""
-sudo ssh-copy-id root@rhgs4
-```
-
-The password for root is **"Redhat18"**
-
-
-### SET UP THE REMOTE SITE
-
-Build a second pool of trusted nodes on **rhgs4**
-```bash
-sudo gluster peer probe rhgs5
-sudo gluster peer probe rhgs6
-```
-
-After these steps there are two clusters, consisting of 3 nodes each:
 
 |local         | remote     |
 |--------------|------------|
