@@ -175,47 +175,20 @@
 
 <h2 id="geo-replication-prerequisites">GEO-REPLICATION PREREQUISITES</h2>
 <p>If you have gone through Module 2 before, it&rsquo;s necessary to revert some of the steps taken in there. </p>
-<p>The cleanup.sh script in student&rsquo;s home will do the following:</p>
+<p>The ansible script <strong>module6</strong>  home will do the following:</p>
 <ol>
-<li>Stop and delete the volumes &ldquo;repvol&rdquo; and &ldquo;distvol&rdquo;</li>
-<li>Remove the nodes &ldquo;rhgs4&rdquo;, &ldquo;rhgs5&rdquo; and &ldquo;rhgs6&rdquo; from the pool of trusted nodes</li>
+<li>Stop and delete the volumes &ldquo;repvol&rdquo; and &ldquo;distvol&rdquo; if they exist.</li>
+<li>Split up the existing cluster into 2 separate clusters</li>
 <li>Create a ssh key for &ldquo;root&rdquo; and copy it to &ldquo;rhgs4&rdquo; since password-less root access is needed later on for the geo-replication.</li>
+<li>Copy required materials to <strong>rhgs4</strong></li>
 </ol>
-<h3 id="manual-steps">MANUAL STEPS</h3>
-<p>If you can&rsquo;t for some reason run the cleanup.sh script or don&rsquo;t want to, here are the manual steps.</p>
-<p>Stop and delete the volumes &ldquo;repvol&rdquo; and &ldquo;distvol&rdquo;</p>
-<div class="codehilite"><pre><span></span>sudo gluster volume stop distvol
-sudo gluster volume delete distvol
+<p>Run the ansible script</p>
+<div class="codehilite"><pre><span></span>ansible-playbook -i ~/materials/ansible/inventory
+~/materials/ansible/module6.yaml
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span>sudo gluster volume stop repvol
-sudo gluster volume delete distvol
-</pre></div>
-
-
-<p>Remove the nodes &ldquo;rhgs4&rdquo;, &ldquo;rhgs5&rdquo; and &ldquo;rhgs6&rdquo; from the pool of trusted nodes</p>
-<div class="codehilite"><pre><span></span>sudo gluster peer detach rhgs4
-sudo gluster peer detach rhgs5
-sudo gluster peer detach rhgs6
-</pre></div>
-
-
-<p>Create a ssh key for &ldquo;root&rdquo; and copy it to &ldquo;rhgs4&rdquo;</p>
-<div class="codehilite"><pre><span></span>sudo ssh-keygen -t rsa -f /root/.ssh/id.rsa -q -P <span class="s2">&quot;&quot;</span>
-sudo ssh-copy-id root@rhgs4
-</pre></div>
-
-
-<p>The password for root is <strong>&ldquo;Redhat18&rdquo;</strong></p>
-<h3 id="set-up-the-remote-site">SET UP THE REMOTE SITE</h3>
-<p>Build a second pool of trusted nodes on <strong>rhgs4</strong></p>
-<div class="codehilite"><pre><span></span>sudo gluster peer probe rhgs5
-sudo gluster peer probe rhgs6
-</pre></div>
-
-
-<p>After these steps there are two clusters, consisting of 3 nodes each:</p>
+<p>Once the script has finished, two separate clusters are set up</p>
 <table>
 <thead>
 <tr>
