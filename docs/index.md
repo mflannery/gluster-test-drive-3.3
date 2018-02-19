@@ -8,7 +8,7 @@ Welcome to the **Red Hat Gluster Storage Hands-on Test Drive**. To make your Glu
 - <a href="gluster-module-4/">**Module 4 :** Disperse Volumes (Erasure Coding)</a>
 - <a href="gluster-module-5/">**Module 5 :** Snapshots Operations and Administration</a>
 - <a href="gluster-module-6/">**Module 6 :** Geo-Replication and Disaster Recovery</a>
-- ***Coming Soon*** **Module 7 :** Tiered Volumes (Cache Tiering)
+- ***Coming Soon*** **Module 7 :** Rolling Upgrades
 - ***Coming Soon*** **Module 8 :** Gluster Internals
 
 ## What is Gluster?

@@ -38,8 +38,7 @@ The ansible script **module6**  home will do the following:
 
 Run the ansible script
 ```bash
-ansible-playbook -i ~/materials/ansible/inventory
-~/materials/ansible/module6.yaml
+ansible-playbook -i ~/materials/ansible/inventory ~/materials/ansible/module6.yaml
 ```
 
 Once the script has finished, two separate clusters are set up
@@ -131,9 +130,7 @@ done
 
 ### SIMULATE A DATACENTER OUTAGE
 
-We need to turn the master off completely, so that the slave can take over its
-functions. Stop the glusterd on **rhgs1** AND **rhgs2** since it's a replicated
-volume
+We need to turn the master off completely, so that the slave can take over its functions. Stop the glusterd on **rhgs1** AND **rhgs2** since it's a replicated volume
 
 ```bash
 sudo systemctl stop glusterd
@@ -177,8 +174,5 @@ ls -l /rhgs/client/native/georep/mydir | wc -l
 ```
 ``50``
 
-### REVERT BACK TO THE ORIGINAL MASTER
-
-tbd
 
 
