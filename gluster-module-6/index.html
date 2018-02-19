@@ -183,8 +183,7 @@
 <li>Copy required materials to <strong>rhgs4</strong></li>
 </ol>
 <p>Run the ansible script</p>
-<div class="codehilite"><pre><span></span>ansible-playbook -i ~/materials/ansible/inventory
-~/materials/ansible/module6.yaml
+<div class="codehilite"><pre><span></span>ansible-playbook -i ~/materials/ansible/inventory ~/materials/ansible/module6.yaml
 </pre></div>
 
 
@@ -270,9 +269,7 @@ sudo chmod <span class="m">777</span> /rhgs/client/native/georep/mydir
 
 <h2 id="disaster-recovery">DISASTER RECOVERY</h2>
 <h3 id="simulate-a-datacenter-outage">SIMULATE A DATACENTER OUTAGE</h3>
-<p>We need to turn the master off completely, so that the slave can take over its<br />
-functions. Stop the glusterd on <strong>rhgs1</strong> AND <strong>rhgs2</strong> since it&rsquo;s a replicated<br />
-volume</p>
+<p>We need to turn the master off completely, so that the slave can take over its functions. Stop the glusterd on <strong>rhgs1</strong> AND <strong>rhgs2</strong> since it&rsquo;s a replicated volume</p>
 <div class="codehilite"><pre><span></span>sudo systemctl stop glusterd
 </pre></div>
 
@@ -309,9 +306,7 @@ sudo mount -t glusterfs rhgs4:slavevol /rhgs/client/native/georep
 </pre></div>
 
 
-<p><code>50</code></p>
-<h3 id="revert-back-to-the-original-master">REVERT BACK TO THE ORIGINAL MASTER</h3>
-<p>tbd</p></div>
+<p><code>50</code></p></div>
         </div>
 
         <footer class="col-md-12">
