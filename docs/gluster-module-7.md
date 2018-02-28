@@ -32,7 +32,7 @@ Between the two servers a replicated volume will be set up and the brick on
 
 On **rhgs1** is an ansible script to take care of the required prerequisites
 ```bash
-ansible-playbook -i ~/materials/ansible/inventory ~/materials/ansible/module6.yaml
+ansible-playbook -i ~/materials/ansible/inventory ~/materials/ansible/module7.yaml
 ```
 
 This module uses the replicated volume, please deploy it from **rhgs1**
@@ -52,7 +52,6 @@ Gluster process                             TCP Port  RDMA Port  Online  Pid
 Brick rhgs1:/rhgs/brick_xvdc/repvol         49152     0          Y       20492
 Brick rhgs2:/rhgs/brick_xvdc/repvol         49152     0          Y       14846
 Self-heal Daemon on localhost               N/A       N/A        Y       20512
-Self-heal Daemon on rhgs3                   N/A       N/A        Y       12533
 Self-heal Daemon on rhgs2                   N/A       N/A        Y       14866
  
  Task Status of Volume repvol
@@ -166,7 +165,7 @@ sudo mkdir -p /rhgs/brick_xvdd
 ```
 ```bash
 sudo echo "/dev/rhgs_vg3/rhgs_lv3 /rhgs/brick_xvdd xfs rw,inode64,noatime,nouuid 1 2" >> /etc/fstab
-udo ount /rhgs/brick_xvdd
+sudo mount /rhgs/brick_xvdd
 sudo semanage fcontext -a -t glusterd_brick_t /rhgs/brick_xvdd
 sudo restorecon -Rv /rhgs/brick_xvdd
 ```
