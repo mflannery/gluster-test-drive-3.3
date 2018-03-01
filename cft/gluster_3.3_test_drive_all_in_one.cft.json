@@ -880,6 +880,7 @@
               "restorecon -Rv /rhgs/brick_xvdd\n",
               "sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config\n",
               "systemctl restart sshd.service\n",
+              "git clone https://github.com/red-hat-storage/gluster-test-drive-3.3-files.git /home/student/materials\n",
      	      "rpm -e rh-amazon-rhui-client\n",
 	          "rpm -e rh-amazon-rhui-client-rhs30\n",
      	      "rm -rf /etc/yum.repos.d/*repo*\n"
