@@ -703,7 +703,14 @@
               "VolumeSize" : "10",
               "VolumeType": "gp2"
             }
-          }
+          },{
+            "DeviceName" : "/dev/sde",
+            "VirtualName" : "gluster-brick-xvde",
+            "Ebs" : {
+              "VolumeSize" : "10",
+              "VolumeType" : "gp2"
+            }
+		}
         ],
        
         "UserData": {
