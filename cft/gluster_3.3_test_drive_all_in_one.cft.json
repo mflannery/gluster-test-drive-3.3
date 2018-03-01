@@ -83,7 +83,7 @@
 
 
     "RHSCLIENTAMI" : {
-      "us-east-1"      : { "AMI" : "ami-93291de9" },
+      "us-east-1"      : { "AMI" : "ami-6f55bf12" },
       "us-west-2"      : { "AMI" : "ami-xxxxxxxx" },
       "us-west-1"      : { "AMI" : "ami-xxxxxxxx" },
       "eu-west-1"      : { "AMI" : "ami-xxxxxxxx" },
