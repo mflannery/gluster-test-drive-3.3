@@ -215,14 +215,17 @@ Check the contents of the **read-only** snapshot
 ```bash
 ls /rhgs/snaps/snap1/mydir | wc -l 
 ```
-``100``
+```100```
 
 Now delete all the files in ``/rhgs/client/nfs/distvol/mydir/``
 ```bash
 rm -rf /rhgs/client/nfs/distvol/mydir/*
 ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 ```
-``0``
+```
+ls: cannot access /rhgs/client/nfs/distvol/mydir/: No such file or directory
+0
+```
 
 There are no files left, all 100 files have been deleted. 
 
@@ -238,8 +241,10 @@ For this step the volume must be stopped
 ```bash
 sudo gluster volume stop distvol 
 ```
-``Stopping volume will make its data inaccessible. Do you want to continue (y/n) y
-volume stop: distvol: success``
+```
+Stopping volume will make its data inaccessible. Do you want to continue (y/n) y
+volume stop: distvol: success
+```
 
 Now restore the volume from the snapshot ``snap1``
 ```bash
@@ -250,12 +255,10 @@ Do you still want to continue? (y/n) y
 
 ``Snapshot restore: snap1: Snap restored successfully``
 
-Start the volume and trigger a self-heal:
+Start the volume: 
 ```bash
 sudo gluster volume start distvol
-sudo gluster volume heal distvol full
 ```
-Once the snapshot is restored it will be deleted. 
 
 Go back to **client1** and check the contents of ``/rhgs/client/nfs/distvol/mydir/``
 ```bash
@@ -264,6 +267,8 @@ ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 ``100``
 
 All the files that have been deleted have been restored from the snapshot that was taken before the deletion.
+
+IMPORTANT: Once the snapshot is restored it will be deleted. If you plan on further possible restores, create a new snapshot immediately.
 
 ## CONFIGURE SNAPSHOT BEHAVIOUR
 
