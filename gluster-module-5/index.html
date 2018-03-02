@@ -657,7 +657,7 @@ sudo chmod <span class="m">777</span> /rhgs/client/nfs/distvol/mydir
 
 
 <p>List the directory, counting its contents to confirm the 100 files written.                                                                                                  </p>
-<div class="codehilite"><pre><span></span>ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l                                                                                                                                   
+<div class="codehilite"><pre><span></span>ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l 
 </pre></div>
 
 
@@ -681,14 +681,17 @@ sudo chmod <span class="m">777</span> /rhgs/client/nfs/distvol/mydir
 </pre></div>
 
 
-<p><code>Volume Name               : distvol        
+<div class="codehilite"><pre><span></span>Volume Name               : distvol        
 Snaps Taken               : 1              
 Snaps Available           : 255            
         Snapshot                  : snap1                      
         Snap UUID                 : bc9abd1b-6239-49ec-aa0c-d0e56d619dd1               
         Description               : populated volume                                   
         Created                   : 2018-01-30 10:47:28                                
-        Status                    : Stopped</code></p>
+        Status                    : Stopped    
+</pre></div>
+
+
 <h2 id="access-and-restore-snapshots">ACCESS AND RESTORE SNAPSHOTS</h2>
 <p>Snaphosts of volumes can only be accessed via FUSE (native) mounts. <br />
 In order to do that snapshots must be activated.</p>
@@ -769,41 +772,53 @@ sudo gluster volume heal distvol full
 </pre></div>
 
 
-<p><code>Snapshot System Configuration:
+<div class="codehilite"><pre><span></span>Snapshot System Configuration:
 snap-max-hard-limit : 256
 snap-max-soft-limit : 90%
 auto-delete : disable
-activate-on-create : disable</code><br />
-<code>Snapshot Volume Configuration:</code><br />
-<code>Volume : distvol
+activate-on-create : disable
+
+Snapshot Volume Configuration:
+
+Volume : distvol
 snap-max-hard-limit : 256
 Effective snap-max-hard-limit : 256
-Effective snap-max-soft-limit : 230 (90%)</code></p>
+Effective snap-max-soft-limit : 230 (90%)
+</pre></div>
+
+
 <p>Set the maximum number of snapshots for <code>distvol</code> to 3</p>
 <div class="codehilite"><pre><span></span>sudo gluster snapshot config distvol snap-max-hard-limit <span class="m">3</span>
 </pre></div>
 
 
-<p><code>Changing snapshot-max-hard-limit will limit the creation of new snapshots if they exceed the new limit.
+<div class="codehilite"><pre><span></span>Changing snapshot-max-hard-limit will limit the creation of new snapshots if they exceed the new limit.
 Do you want to continue? (y/n) y
-snapshot config: snap-max-hard-limit for distvol set successfully</code></p>
+snapshot config: snap-max-hard-limit for distvol set successfully
+</pre></div>
+
+
 <p>Now create 3 snapshots for distvol:</p>
 <div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..4<span class="o">}</span><span class="p">;</span> <span class="k">do</span> sudo gluster snapshot create snap<span class="nv">$i</span> distvol no-timestamp force<span class="p">;</span> <span class="k">done</span>
 </pre></div>
 
 
-<p><code>snapshot create: success: Snap snap1 created successfully
+<div class="codehilite"><pre><span></span>snapshot create: success: Snap snap1 created successfully
 snapshot create: success: Snap snap2 created successfully
 snapshot create: success: Snap snap3 created successfully
 snapshot create: success: Snap snap4 created successfully
-Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not possible once hard-limit is reached.</code></p>
+Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not possible once hard-limit is reached.
+</pre></div>
+
+
 <p>If we create a 5th snapshot, we cross the pre-defined limit:</p>
 <div class="codehilite"><pre><span></span>sudo gluster snapshot create snap5 distvol no-timestamp force
 </pre></div>
 
 
-<p><code>snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 4, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
-Snapshot command failed</code></p>
+<div class="codehilite"><pre><span></span>snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 4, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
+Snapshot command failed
+</pre></div>
                 
                   
                 
