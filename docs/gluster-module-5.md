@@ -37,29 +37,6 @@ connect to the **rhgs1** server instance, using its public IP address from the
 ssh student@<rhgs1PublicIP>
 ```
 
-## SNAPSHOT PREREQUISITES
-
-The snapshots will consists of the same number of bricks as the original
-volumes. By default bricks communicate via privileged ports, but the number of
-such ports is limited to 1024. In order to support up to 256 snapshots per
-volume the glusterd must be allowed to use non-privileged ports:
-
-Permit insecure ports for the volume for which snapshots will be used:
-```bash
-# sudo gluster volume set repvol server.allow-insecure on
-```
-
-Edit ``/etc/glusterfs/glusterd.vol`` in every cluster node, and add the
-following line:
-```bash
-option rpc-auth-allow-insecure on
-```
-
-Then restart the glusterd service to make make the changes effective:
-```bash
-# sudo systemctl restart glusterd
-```
-
 ## OPTIONAL: CREATE THE DISTVOL VOLUME
 
 If you have not already done so as part of **Module 2**, deploy the ``distvol`` volume, using the provided gdeploy configuration file.
@@ -96,6 +73,29 @@ features.quota-deem-statfs: off
 Make sure the ``nfs.disable`` attribute is set to off. In case it's not, run
 ```bash
 sudo gluster volume set distvol nfs.disable off
+```
+
+## SNAPSHOT PREREQUISITES
+
+The snapshots will consists of the same number of bricks as the original
+volumes. By default bricks communicate via privileged ports, but the number of
+such ports is limited to 1024. In order to support up to 256 snapshots per
+volume the glusterd must be allowed to use non-privileged ports:
+
+Permit insecure ports for the volume for which snapshots will be used:
+```bash
+# sudo gluster volume set distvol server.allow-insecure on
+```
+
+Edit ``/etc/glusterfs/glusterd.vol`` in every cluster node, and add the
+following line:
+```bash
+option rpc-auth-allow-insecure on
+```
+
+Then restart the glusterd service to make make the changes effective:
+```bash
+# sudo systemctl restart glusterd
 ```
 
 ## NFS CLIENT ACCESS
@@ -230,7 +230,7 @@ Check if the files are still available in the snapshot **snap1**
 ```bash
 ls /rhgs/snaps/snap1/mydir/ | wc -l
 ```
-``100```
+```100```
 
 Go back to **rhgs1** and restore the original volume from the snapshot. 
 For this step the volume must be stopped
@@ -250,8 +250,9 @@ Do you still want to continue? (y/n) y
 
 ``Snapshot restore: snap1: Snap restored successfully``
 
-Trigger a self-heal:
+Start the volume and trigger a self-heal:
 ```bash
+sudo gluster volume start distvol
 sudo gluster volume heal distvol full
 ```
 Once the snapshot is restored it will be deleted. 
