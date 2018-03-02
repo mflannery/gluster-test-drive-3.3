@@ -315,15 +315,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#snapshot-prerequisites" title="SNAPSHOT PREREQUISITES" class="md-nav__link">
-    SNAPSHOT PREREQUISITES
+  <a href="#optional-create-the-distvol-volume" title="OPTIONAL: CREATE THE DISTVOL VOLUME" class="md-nav__link">
+    OPTIONAL: CREATE THE DISTVOL VOLUME
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-create-the-distvol-volume" title="OPTIONAL: CREATE THE DISTVOL VOLUME" class="md-nav__link">
-    OPTIONAL: CREATE THE DISTVOL VOLUME
+  <a href="#snapshot-prerequisites" title="SNAPSHOT PREREQUISITES" class="md-nav__link">
+    SNAPSHOT PREREQUISITES
   </a>
   
 </li>
@@ -465,15 +465,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#snapshot-prerequisites" title="SNAPSHOT PREREQUISITES" class="md-nav__link">
-    SNAPSHOT PREREQUISITES
+  <a href="#optional-create-the-distvol-volume" title="OPTIONAL: CREATE THE DISTVOL VOLUME" class="md-nav__link">
+    OPTIONAL: CREATE THE DISTVOL VOLUME
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#optional-create-the-distvol-volume" title="OPTIONAL: CREATE THE DISTVOL VOLUME" class="md-nav__link">
-    OPTIONAL: CREATE THE DISTVOL VOLUME
+  <a href="#snapshot-prerequisites" title="SNAPSHOT PREREQUISITES" class="md-nav__link">
+    SNAPSHOT PREREQUISITES
   </a>
   
 </li>
@@ -561,27 +561,6 @@
 </pre></div>
 
 
-<h2 id="snapshot-prerequisites">SNAPSHOT PREREQUISITES</h2>
-<p>The snapshots will consists of the same number of bricks as the original<br />
-volumes. By default bricks communicate via privileged ports, but the number of<br />
-such ports is limited to 1024. In order to support up to 256 snapshots per<br />
-volume the glusterd must be allowed to use non-privileged ports:</p>
-<p>Permit insecure ports for the volume for which snapshots will be used:</p>
-<div class="codehilite"><pre><span></span><span class="c1"># sudo gluster volume set repvol server.allow-insecure on</span>
-</pre></div>
-
-
-<p>Edit <code>/etc/glusterfs/glusterd.vol</code> in every cluster node, and add the<br />
-following line:</p>
-<div class="codehilite"><pre><span></span>option rpc-auth-allow-insecure on
-</pre></div>
-
-
-<p>Then restart the glusterd service to make make the changes effective:</p>
-<div class="codehilite"><pre><span></span><span class="c1"># sudo systemctl restart glusterd</span>
-</pre></div>
-
-
 <h2 id="optional-create-the-distvol-volume">OPTIONAL: CREATE THE DISTVOL VOLUME</h2>
 <p>If you have not already done so as part of <strong>Module 2</strong>, deploy the <code>distvol</code> volume, using the provided gdeploy configuration file.</p>
 <div class="codehilite"><pre><span></span>gdeploy -c ~/materials/gdeploy/distvol.conf
@@ -616,6 +595,27 @@ features.quota-deem-statfs: off
 
 <p>Make sure the <code>nfs.disable</code> attribute is set to off. In case it&rsquo;s not, run</p>
 <div class="codehilite"><pre><span></span>sudo gluster volume <span class="nb">set</span> distvol nfs.disable off
+</pre></div>
+
+
+<h2 id="snapshot-prerequisites">SNAPSHOT PREREQUISITES</h2>
+<p>The snapshots will consists of the same number of bricks as the original<br />
+volumes. By default bricks communicate via privileged ports, but the number of<br />
+such ports is limited to 1024. In order to support up to 256 snapshots per<br />
+volume the glusterd must be allowed to use non-privileged ports:</p>
+<p>Permit insecure ports for the volume for which snapshots will be used:</p>
+<div class="codehilite"><pre><span></span><span class="c1"># sudo gluster volume set distvol server.allow-insecure on</span>
+</pre></div>
+
+
+<p>Edit <code>/etc/glusterfs/glusterd.vol</code> in every cluster node, and add the<br />
+following line:</p>
+<div class="codehilite"><pre><span></span>option rpc-auth-allow-insecure on
+</pre></div>
+
+
+<p>Then restart the glusterd service to make make the changes effective:</p>
+<div class="codehilite"><pre><span></span><span class="c1"># sudo systemctl restart glusterd</span>
 </pre></div>
 
 
@@ -726,7 +726,7 @@ ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l
 </pre></div>
 
 
-<p>``100```</p>
+<p><code>100</code></p>
 <p>Go back to <strong>rhgs1</strong> and restore the original volume from the snapshot. <br />
 For this step the volume must be stopped</p>
 <div class="codehilite"><pre><span></span>sudo gluster volume stop distvol 
@@ -743,8 +743,9 @@ Do you still want to <span class="k">continue</span>? <span class="o">(</span>y/
 
 
 <p><code>Snapshot restore: snap1: Snap restored successfully</code></p>
-<p>Trigger a self-heal:</p>
-<div class="codehilite"><pre><span></span>sudo gluster volume heal distvol full
+<p>Start the volume and trigger a self-heal:</p>
+<div class="codehilite"><pre><span></span>sudo gluster volume start distvol
+sudo gluster volume heal distvol full
 </pre></div>
 
 
