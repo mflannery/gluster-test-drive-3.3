@@ -88,7 +88,7 @@ This can either be done manually by following the steps below or by running an
 ansible playbook. If you choose to use ansible, please run
 
 ```bash
-ansible-playbook -i materials/ansible/inventory materials/ansible/module5.yaml
+ansible-playbook -i ~/materials/ansible/inventory materials/ansible/module5.yaml
 ```
 
 To achieve the same manually, please follow these steps:
