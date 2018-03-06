@@ -47,7 +47,9 @@ gdeploy -c ~/materials/gdeploy/distvol.conf
 Confirm the volume configuration.
 ```bash
 sudo gluster volume info distvol
-``
+```
+
+```bash
 Volume Name: distvol
 Type: Distribute
 Volume ID: 957b4f60-4c2e-401f-b13c-558fd9df0c45
@@ -80,7 +82,16 @@ sudo gluster volume set distvol nfs.disable off
 The snapshots will consists of the same number of bricks as the original
 volumes. By default bricks communicate via privileged ports, but the number of
 such ports is limited to 1024. In order to support up to 256 snapshots per
-volume the glusterd must be allowed to use non-privileged ports:
+volume the glusterd must be allowed to use non-privileged ports.
+
+This can either be done manually by following the steps below or by running an
+ansible playbook. If you choose to use ansible, please run
+
+```bash
+ansible-playbook -i materials/ansible/inventory materials/ansible/module5.yaml
+```
+
+To achieve the same manually, please follow these steps:
 
 Permit insecure ports for the volume for which snapshots will be used:
 ```bash
@@ -98,6 +109,7 @@ Then restart the glusterd service to make make the changes effective:
 # sudo systemctl restart glusterd
 ```
 
+
 ## NFS CLIENT ACCESS
 A Gluster volume can be accessed through multiple standard client protocols, as well as through specialized methods including the OpenStack Swift protocol and a direct API.  
                                                                                        
@@ -113,6 +125,8 @@ Here, on the RHEL client, you will mount via NFS the Gluster **distvol** volume 
                                                                                        
 ```bash                                                                                
 sudo mkdir -p /rhgs/client/nfs/distvol 
+```
+```bash
 sudo mount -t nfs rhgs1:/distvol /rhgs/client/nfs/distvol 
 ```                                                                                    
                                                                                        
@@ -126,24 +140,28 @@ df -h /rhgs/client/nfs/distvol
 ``rhgs1:/distvol   60G  198M   60G   1% /rhgs/client/nfs/distvol``                     
                                                                                        
 ```bash                                                                                
-mount | grep distvol                                                                   
+mount | grep distvol 
 ```                                                                                    
                                                                                        
-``rhgs1:/distvol on /rhgs/client/nfs/distvol type nfs (rw,relatime,vers=3,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=10.100.1.11,mountvers=3,mountport=38465,mountproto=tcp,local_lock=none,addr=10.100.1.11)``     
-                                                                                       
+```
+rhgs1:/distvol on /rhgs/client/nfs/distvol type nfs (rw,relatime,vers=3,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=10.100.1.11,mountvers=3,mountport=38465,mountproto=tcp,local_lock=none,addr=10.100.1.11)```
+```
+
                                                                                        
 Create and set permissions on a subdirectory to hold your data.                        
                                                                                        
                                                                                        
 ```bash                                                                                
-sudo mkdir /rhgs/client/nfs/distvol/mydir                                              
-sudo chmod 777 /rhgs/client/nfs/distvol/mydir                                          
+sudo mkdir /rhgs/client/nfs/distvol/mydir 
+```
+```bash
+sudo chmod 777 /rhgs/client/nfs/distvol/mydir 
 ```                                                                                    
                                                                                        
 Add 100 files to the directory.                                                        
                                                                                        
 ```bash                                                                                
-for i in {001..100}; do echo hello$i > /rhgs/client/nfs/distvol/mydir/file$i; done     
+for i in {001..100}; do echo hello$i > /rhgs/client/nfs/distvol/mydir/file$i; done 
 ```                                                                                    
                                                                                                                                                                              
 List the directory, counting its contents to confirm the 100 files written.                                                                                                  
@@ -208,6 +226,9 @@ sudo gluster snapshot activate snap1
 
 Connect to **client1** using ssh and create a directory for the snapshots to be mounted:
 ```bash
+ssh student@client1
+```
+```bash
 sudo mkdir -p /rhgs/snaps/snap1
 ```
 
@@ -220,15 +241,19 @@ Check the contents of the **read-only** snapshot
 ```bash
 ls /rhgs/snaps/snap1/mydir | wc -l 
 ```
-```100```
+```
+100
+```
 
 Now delete all the files in ``/rhgs/client/nfs/distvol/mydir/``
+
 ```bash
 rm -rf /rhgs/client/nfs/distvol/mydir/*
+```
+```bash
 ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 ```
 ```
-ls: cannot access /rhgs/client/nfs/distvol/mydir/: No such file or directory
 0
 ```
 
@@ -238,10 +263,16 @@ Check if the files are still available in the snapshot **snap1**
 ```bash
 ls /rhgs/snaps/snap1/mydir/ | wc -l
 ```
-```100```
+```
+100
+```
 
 Go back to **rhgs1** and restore the original volume from the snapshot. 
 For this step the volume must be stopped
+
+```bash
+exit
+```
 
 ```bash
 sudo gluster volume stop distvol 
@@ -254,6 +285,8 @@ volume stop: distvol: success
 Now restore the volume from the snapshot ``snap1``
 ```bash
 sudo gluster snapshot restore snap1
+```
+```
 Restore operation will replace the original volume with the snapshotted volume.
 Do you still want to continue? (y/n) y
 ```
@@ -266,6 +299,9 @@ sudo gluster volume start distvol
 ```
 
 Go back to **client1** and check the contents of ``/rhgs/client/nfs/distvol/mydir/``
+```bash
+ssh student@client1
+```
 ```bash
 ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 ```
@@ -322,23 +358,21 @@ snapshot config: snap-max-hard-limit for distvol set successfully
 
 Now create 3 snapshots for distvol:
 ```bash
-for i in {1..4}; do sudo gluster snapshot create snap$i distvol no-timestamp force; done
+for i in {1..3}; do sudo gluster snapshot create snap$i distvol no-timestamp force; done
 ```
 ```
-snapshot create: success: Snap snap1 created successfully
-snapshot create: success: Snap snap2 created successfully
-snapshot create: success: Snap snap3 created successfully
-snapshot create: success: Snap snap4 created successfully
-Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not possible once hard-limit is reached.
+snapshot create: success: Snap snap1 created successfully 
+snapshot create: success: Snap snap2 created successfully 
+snapshot create: success: Snap snap3 created successfully 
+Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not possible once hard-limit is reached. 
 ```
 
-
-If we create a 5th snapshot, we cross the pre-defined limit:
+If we create a 4th snapshot, we cross the pre-defined limit:
 ```bash
-sudo gluster snapshot create snap5 distvol no-timestamp force
+sudo gluster snapshot create snap4 distvol no-timestamp force
 ```
 ```
-snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 4, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
+snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 3, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
 Snapshot command failed
 ```
 
