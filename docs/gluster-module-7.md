@@ -69,21 +69,22 @@ On **client1** create the directories to mount the volume if not yet done
 ```bash
 ssh student@client1
 ```
-```bash                                                                          
-sudo mkdir -p /rhgs/client/native/repvol                                        
+```bash 
+sudo mkdir -p /rhgs/client/native/repvol 
 ```
 ```bash
-sudo mount -t glusterfs rhgs1:repvol /rhgs/client/native/repvol/               
+sudo mount -t glusterfs rhgs1:repvol /rhgs/client/native/repvol/ 
 ```                                 
 
 Examine the new mount.                                                                         
                                                                                                
 ```bash                                                                                        
-df -h /rhgs/client/native/repvol/                                                             
+df -h /rhgs/client/native/repvol/
 ```                                                                                            
-                                                                                               
-``Filesystem      Size  Used Avail Use% Mounted on``                                           
-``rhgs1:distvol    60G  199M   60G   1% /rhgs/client/native/repvol`` 
+```
+Filesystem      Size  Used Avail Use% Mounted on                                                                                                                             
+rhgs1:repvol     10G   34M   10G   1% /rhgs/client/native/repvol
+```
 
                                                                                  
 Create and set permissions on a subdirectory to hold your data.                  
@@ -269,7 +270,7 @@ Log out from **rhgs2**
 exit
 ```
 
-Back on **rhgs** we need to tell gluster to replace the faulty brick with the newly created one
+Back on **rhgs1** we need to tell gluster to replace the faulty brick with the newly created one
 
 ```bash
 sudo gluster volume replace-brick repvol rhgs2:/rhgs/brick_xvdc/repvol rhgs2:/rhgs/brick_xvde/repvol commit force
