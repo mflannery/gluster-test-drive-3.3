@@ -158,6 +158,9 @@ sudo pkill -9 glusterfsd
 ```bash
 sudo pkill -9 python
 ```
+```bash
+sudo pkill -9 glusterfs
+```
 
 Do the same on **rhgs2**
 
@@ -174,6 +177,9 @@ sudo pkill -9 glusterfsd
 ```bash
 sudo pkill -9 python
 ```     
+```bash
+sudo pkill -9 glusterfs
+```
 ```bash
 exit
 ```
@@ -231,7 +237,7 @@ sudo mount -t glusterfs rhgs4:slavevol /rhgs/client/native/georep
 
 Check the contents of /rhgs/client/native/georep/mydir
 ```bash
-ls -l /rhgs/client/native/georep/mydir | wc -l
+ls /rhgs/client/native/georep/mydir | wc -l
 ```
 ``50``
 

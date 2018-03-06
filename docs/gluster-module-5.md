@@ -171,14 +171,14 @@ ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 ```                                                                                                                                                                          
                                                                                                                                                                              
 ``100``                                                                                                                                                                      
-    
-## CREATION OF SNAPSHOTS
-
-Now that the volume is populated with your 100 data files take a snapshot.
 Logout from **client1**
 ```
 exit
 ```
+    
+## CREATION OF SNAPSHOTS
+
+Now that the volume is populated with your 100 data files take a snapshot.
 Create the snapshot on **rhgs1**
 
 ```bash
@@ -307,6 +307,10 @@ ls /rhgs/client/nfs/distvol/mydir/ | wc -l
 ```
 ``100``
 
+Log out from **client1**
+```bash
+exit
+```
 All the files that have been deleted have been restored from the snapshot that was taken before the deletion.
 
 IMPORTANT: Once the snapshot is restored it will be deleted. If you plan on further possible restores, create a new snapshot immediately.
@@ -319,10 +323,6 @@ Since snapshots can easily fill up the available space on the gluster nodes, the
 - **snap-max-soft-limit**: This parameter is a percentage value and defaults to 90%.  It works together with the auto-delete feature. So once this soft-limit is reached, the system wil delete the oldest snapshot. If auto-delete is disabled, it will display a warning. 
 - **auto-delete**: If enabled, this option will work with snap-max-soft-limit as described above. **Note:** This is a global option and can not be set on a per-volume basis.
 
-Log out from **client1**
-```bash
-exit
-```
 
 Display the configuration values:
 ```bash

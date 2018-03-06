@@ -66,8 +66,13 @@ There are no active volume tasks
 
 On **client1** create the directories to mount the volume if not yet done
 
+```bash
+ssh student@client1
+```
 ```bash                                                                          
 sudo mkdir -p /rhgs/client/native/repvol                                        
+```
+```bash
 sudo mount -t glusterfs rhgs1:repvol /rhgs/client/native/repvol/               
 ```                                 
 
@@ -85,6 +90,8 @@ Create and set permissions on a subdirectory to hold your data.
                                                                                  
 ```bash                                                                          
 sudo mkdir /rhgs/client/native/repvol/mydir                                        
+```
+```bash
 sudo chmod 777 /rhgs/client/native/repvol/mydir    
 ```
  
@@ -92,17 +99,18 @@ Add 100 files to the directory.
                                                                                               
                                                                                                
 ```bash                                                                                        
-for i in {001..100}; do echo hello$i > /rhgs/client/native/repvol/mydir/file$i; done                                                                                                            
-```                                                                                                                                                                                           
-                                                                                                                                                                                              
-List the directory, counting its contents to confirm the 100 files written.                                                                                                                   
-                                                                                                                                                                                              
-```bash                                                                                                                                                                                       
-ls /rhgs/client/native/repvol/mydir/ | wc -l                                       
-```                                                                                                                                                                                           
+for i in {001..100}; do echo hello$i > /rhgs/client/native/repvol/mydir/file$i; done 
+``` 
 
+List the directory, counting its contents to confirm the 100 files written.                                                                                                                   
+```bash 
+ls /rhgs/client/native/repvol/mydir/ | wc -l 
+``` 
 ``100``                                                                                                                                                                                       
-          
+Log out off **client1**
+```bash
+exit
+```
 
 
 ## SIMULATE BRICK FAILURE
@@ -125,11 +133,17 @@ Brick rhgs2:/rhgs/brick_xvdc/repvol         49152     0          Y       14831
 On **rhgs2** we will now disable the brick:
 
 ```bash
+ssh student@rhgs2
+```
+```bash
 sudo dmsetup load rhgs_vg2-rhgs_lv2 /home/student/materials/dmsetup-error-target
+```
+```bash
 sudo dmsetup resume rhgs_vg2-rhgs_lv2
 ```
 
-This will remove the inital blockdevice to which the map points and replace it with the error target. As a consequence, /dev/xvdc  will return an I/O error on every read- or write operation to it. 
+This will remove the inital blockdevice to which the map points and replace it with the error target. 
+As a consequence, /dev/xvdc  will return an I/O error on every read- or write operation to it. 
 
 If you follow the system on **rhgs2** logs using
 ```bash
@@ -149,6 +163,9 @@ Feb 16 06:44:00 ip-172-31-25-204 kernel: XFS (dm-14): Failing async write on buf
 Once the health checker has run (by default it runs every 30 seconds) the output
 will indicate that the brick on **rhgs2** is no longer working:
 
+```bash
+sudo gluster volume status repvol
+```
 ```
 Status of volume: repvol                                                                                                                                                     
 Gluster process                             TCP Port  RDMA Port  Online  Pid
@@ -160,8 +177,8 @@ Brick rhgs2:/rhgs/brick_xvdc/repvol         N/A       N/A        N       N/A
 
 ## REPLACE THE FAULTY BRICK
 
-We need to set up the new brick in the identical way the original one was set
-up.
+We need to set up the new brick in the identical way the original one was set up.
+Still on **rhgs2** perform these steps
 
 ```bash
 sudo pvcreate /dev/xvde
@@ -189,6 +206,12 @@ sudo lvchange --zero n rhgs_vg4/rhgs_thinpool4
 ```bash
 sudo lvcreate -V 10G -T rhgs_vg4/rhgs_thinpool4 -n rhgs_lv4
 ```
+```
+  Using default stripesize 64.00 KiB.                                                                                                             
+  WARNING: Sum of all thin volume sizes (10.00 GiB) exceeds the size of thin pool rhgs_vg4/rhgs_thinpool4 and the size of whole volume group (<10.00 GiB)!
+  For thin pool auto extension activation/thin_pool_autoextend_threshold should be below 100.
+  Logical volume "rhgs_lv4" created.
+```
 
 ```bash
 sudo mkfs.xfs -i size=512 -n size=8192 /dev/rhgs_vg4/rhgs_lv4
@@ -212,8 +235,14 @@ sudo mkdir -p /rhgs/brick_xvde
 
 ```bash
 echo "/dev/rhgs_vg4/rhgs_lv4 /rhgs/brick_xvde xfs rw,inode64,noatime,nouuid 1 2" | sudo tee -a /etc/fstab
+```
+```bash
 sudo mount /rhgs/brick_xvde
+```
+```bash
 sudo semanage fcontext -a -t glusterd_brick_t /rhgs/brick_xvde
+```
+```bash
 sudo restorecon -Rv /rhgs/brick_xvde
 ```
 
@@ -235,9 +264,12 @@ xvde                              202:64   0  10G  0 disk
 ```
 
 Now that the LVM layout has been set up and a filesystem has been created on the new brick, we can replace the faulty one.
+Log out from **rhgs2**
+```bash
+exit
+```
 
-
-**rhgs1**
+Back on **rhgs** we need to tell gluster to replace the faulty brick with the newly created one
 
 ```bash
 sudo gluster volume replace-brick repvol rhgs2:/rhgs/brick_xvdc/repvol rhgs2:/rhgs/brick_xvde/repvol commit force
@@ -264,17 +296,19 @@ Self-heal Daemon on rhgs2                   N/A       N/A        Y       13216
  Task Status of Volume repvol
  ------------------------------------------------------------------------------
  There are no active volume tasks
- ```
+```
 
 To verify that all the data has been replicated as well, we need to check the
 contents of /rhgs/brick_xvde/repvol/mydir on **rhgs2**
 
+```bash
+ssh student@rhgs2
 ```
+```bash
 ls /rhgs/brick_xvde/repvol/mydir/file* | wc -l
 ```
-
 ```
-200
+100
 ```
 
 So the files have been successfully replicated to the new replacement volume and
