@@ -153,10 +153,10 @@ sudo systemctl stop glusterd
 ```
 And also kill the glusterfsd and python processes
 ```bash
-sudo pkill glusterfsd
+sudo pkill -9 glusterfsd
 ```
 ```bash
-sudo pkill python
+sudo pkill -9 python
 ```
 
 Do the same on **rhgs2**
@@ -169,10 +169,10 @@ sudo systemctl stop glusterd
 ```                                                                              
 And also kill the glusterfsd and python processes 
 ```bash                                                                                                                                           
-sudo pkill glusterfsd 
+sudo pkill -9 glusterfsd 
 ```
 ```bash
-sudo pkill python
+sudo pkill -9 python
 ```     
 ```bash
 exit
