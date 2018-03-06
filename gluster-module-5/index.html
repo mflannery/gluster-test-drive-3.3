@@ -663,7 +663,13 @@ sudo chmod <span class="m">777</span> /rhgs/client/nfs/distvol/mydir
 
 <p><code>100</code>                                                                                                                                                                      </p>
 <h2 id="creation-of-snapshots">CREATION OF SNAPSHOTS</h2>
-<p>Now that the volume is populated with your 100 data files take a snapshot on <strong>rhgs1</strong></p>
+<p>Now that the volume is populated with your 100 data files take a snapshot.<br />
+Logout from <strong>client1</strong></p>
+<div class="codehilite"><pre><span></span>exit
+</pre></div>
+
+
+<p>Create the snapshot on <strong>rhgs1</strong></p>
 <div class="codehilite"><pre><span></span>sudo gluster snapshot create snap1 distvol no-timestamp description <span class="s2">&quot;populated volume&quot;</span>
 </pre></div>
 
@@ -773,6 +779,11 @@ Do you still want to <span class="k">continue</span>? <span class="o">(</span>y/
 <li><strong>snap-max-soft-limit</strong>: This parameter is a percentage value and defaults to 90%.  It works together with the auto-delete feature. So once this soft-limit is reached, the system wil delete the oldest snapshot. If auto-delete is disabled, it will display a warning. </li>
 <li><strong>auto-delete</strong>: If enabled, this option will work with snap-max-soft-limit as described above. <strong>Note:</strong> This is a global option and can not be set on a per-volume basis.</li>
 </ul>
+<p>Log out from <strong>client1</strong></p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
 <p>Display the configuration values:</p>
 <div class="codehilite"><pre><span></span>sudo gluster snapshot config distvol
 </pre></div>
