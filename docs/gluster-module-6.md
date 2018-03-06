@@ -63,7 +63,7 @@ gdeploy -c ~/materials/gdeploy/mastervol.conf
 ```
   
 
-On **rhgs4** create the slave volume using the slavevol.conf file with gdeploy
+Also on **rhgs1** create the slave volume using the slavevol.conf file with gdeploy
 ```bash
 gdeploy -c ~/materials/gdeploy/slavevol.conf
 ```
