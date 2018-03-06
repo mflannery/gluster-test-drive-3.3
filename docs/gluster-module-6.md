@@ -112,10 +112,13 @@ rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::
 
 **NOTE** It might take a moment to reach this state, you will possibly see a status of "Initializing" shortly. 
 
-### Client access
+### CLIENT ACCESS
 
 On **client1** mount the geo-replicated volume from **rhgs1** and create files on it:
 
+```bash
+ssh student@client1
+```
 ```bash
 sudo mkdir -p /rhgs/client/native/georep
 ```
@@ -131,8 +134,11 @@ sudo chmod 777 /rhgs/client/native/georep/mydir
 
 Now create 50 files
 ```bash
-for i in {000..050}; do echo hello$i > /rhgs/client/native/georep/mydir/file$i;
+for i in {001..050}; do echo hello$i > /rhgs/client/native/georep/mydir/file$i;
 done
+```
+```bash
+exit
 ```
 
 
@@ -148,20 +154,25 @@ sudo systemctl stop glusterd
 And also kill the glusterfsd and python processes
 ```bash
 sudo pkill glusterfsd
+```
+```bash
 sudo pkill python
 ```
 
 Do the same on **rhgs2**
 
+```bash
+ssh student@rhgs2
+```
 ```bash                                                                          
-sudo systemctl stop glusterd                                                     
+sudo systemctl stop glusterd 
 ```                                                                              
-And also kill the glusterfsd and python processes                                
+And also kill the glusterfsd and python processes 
 ```bash                                                                                                                                           
-sudo pkill glusterfsd                                                                                                                             
+sudo pkill glusterfsd 
 ```
 ```bash
-sudo pkill python                                                                                                                                 
+sudo pkill python
 ```     
 ```bash
 exit
@@ -177,7 +188,8 @@ ssh student@client1
 ls -l /rhgs/client/native/georep/mydir | wc -l
 ```
 ```
-ls: cannot access /rhgs/client/native/georep/mydir: No such file or directory                                                                     
+ls: cannot access /rhgs/client/native/georep/mydir: Transport endpoint is not
+connected
 0
 ```
 ```bash
