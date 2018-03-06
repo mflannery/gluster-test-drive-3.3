@@ -156,7 +156,12 @@ ls /rhgs/client/nfs/distvol/mydir/ | wc -l
     
 ## CREATION OF SNAPSHOTS
 
-Now that the volume is populated with your 100 data files take a snapshot on **rhgs1**
+Now that the volume is populated with your 100 data files take a snapshot.
+Logout from **client1**
+```
+exit
+```
+Create the snapshot on **rhgs1**
 
 ```bash
 sudo gluster snapshot create snap1 distvol no-timestamp description "populated volume"
@@ -277,6 +282,11 @@ Since snapshots can easily fill up the available space on the gluster nodes, the
 - **snap-max-hard-limit**: Once the snapshot count reaches this limit, no further snapshots can be created. The range is from 1 up to 256.
 - **snap-max-soft-limit**: This parameter is a percentage value and defaults to 90%.  It works together with the auto-delete feature. So once this soft-limit is reached, the system wil delete the oldest snapshot. If auto-delete is disabled, it will display a warning. 
 - **auto-delete**: If enabled, this option will work with snap-max-soft-limit as described above. **Note:** This is a global option and can not be set on a per-volume basis.
+
+Log out from **client1**
+```bash
+exit
+```
 
 Display the configuration values:
 ```bash
