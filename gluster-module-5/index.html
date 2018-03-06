@@ -569,8 +569,10 @@
 
 <p>Confirm the volume configuration.</p>
 <div class="codehilite"><pre><span></span>sudo gluster volume info distvol
-<span class="sb">``</span>
-Volume Name: distvol
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>Volume Name: distvol
 Type: Distribute
 Volume ID: 957b4f60-4c2e-401f-b13c-558fd9df0c45
 Status: Started
@@ -602,7 +604,14 @@ features.quota-deem-statfs: off
 <p>The snapshots will consists of the same number of bricks as the original<br />
 volumes. By default bricks communicate via privileged ports, but the number of<br />
 such ports is limited to 1024. In order to support up to 256 snapshots per<br />
-volume the glusterd must be allowed to use non-privileged ports:</p>
+volume the glusterd must be allowed to use non-privileged ports.</p>
+<p>This can either be done manually by following the steps below or by running an<br />
+ansible playbook. If you choose to use ansible, please run</p>
+<div class="codehilite"><pre><span></span>ansible-playbook -i materials/ansible/inventory materials/ansible/module5.yaml
+</pre></div>
+
+
+<p>To achieve the same manually, please follow these steps:</p>
 <p>Permit insecure ports for the volume for which snapshots will be used:</p>
 <div class="codehilite"><pre><span></span><span class="c1"># sudo gluster volume set distvol server.allow-insecure on</span>
 </pre></div>
@@ -629,7 +638,10 @@ following line:</p>
 
 <p>Here, on the RHEL client, you will mount via NFS the Gluster <strong>distvol</strong> volume you created above.                                                                            </p>
 <div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/nfs/distvol 
-sudo mount -t nfs rhgs1:/distvol /rhgs/client/nfs/distvol 
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo mount -t nfs rhgs1:/distvol /rhgs/client/nfs/distvol 
 </pre></div>
 
 
@@ -640,19 +652,25 @@ sudo mount -t nfs rhgs1:/distvol /rhgs/client/nfs/distvol
 
 <p><code>Filesystem      Size  Used Avail Use% Mounted on</code>                                 <br />
 <code>rhgs1:/distvol   60G  198M   60G   1% /rhgs/client/nfs/distvol</code>                     </p>
-<div class="codehilite"><pre><span></span>mount <span class="p">|</span> grep distvol                                                                   
+<div class="codehilite"><pre><span></span>mount <span class="p">|</span> grep distvol 
 </pre></div>
 
 
-<p><code>rhgs1:/distvol on /rhgs/client/nfs/distvol type nfs (rw,relatime,vers=3,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=10.100.1.11,mountvers=3,mountport=38465,mountproto=tcp,local_lock=none,addr=10.100.1.11)</code>     </p>
+<div class="codehilite"><pre><span></span>rhgs1:/distvol on /rhgs/client/nfs/distvol type nfs (rw,relatime,vers=3,rsize=1048576,wsize=1048576,namlen=255,hard,proto=tcp,timeo=600,retrans=2,sec=sys,mountaddr=10.100.1.11,mountvers=3,mountport=38465,mountproto=tcp,local_lock=none,addr=10.100.1.11)```
+</pre></div>
+
+
 <p>Create and set permissions on a subdirectory to hold your data.                        </p>
-<div class="codehilite"><pre><span></span>sudo mkdir /rhgs/client/nfs/distvol/mydir                                              
-sudo chmod <span class="m">777</span> /rhgs/client/nfs/distvol/mydir                                          
+<div class="codehilite"><pre><span></span>sudo mkdir /rhgs/client/nfs/distvol/mydir 
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo chmod <span class="m">777</span> /rhgs/client/nfs/distvol/mydir 
 </pre></div>
 
 
 <p>Add 100 files to the directory.                                                        </p>
-<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">001</span>..100<span class="o">}</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> hello<span class="nv">$i</span> &gt; /rhgs/client/nfs/distvol/mydir/file<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>     
+<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">001</span>..100<span class="o">}</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> hello<span class="nv">$i</span> &gt; /rhgs/client/nfs/distvol/mydir/file<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span> 
 </pre></div>
 
 
@@ -707,6 +725,10 @@ In order to do that snapshots must be activated.</p>
 
 <p><code>Snapshot activate: snap1: Snap activated successfully</code></p>
 <p>Connect to <strong>client1</strong> using ssh and create a directory for the snapshots to be mounted:</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/snaps/snap1
 </pre></div>
 
@@ -721,15 +743,20 @@ In order to do that snapshots must be activated.</p>
 </pre></div>
 
 
-<p><code>100</code></p>
-<p>Now delete all the files in <code>/rhgs/client/nfs/distvol/mydir/</code></p>
-<div class="codehilite"><pre><span></span>rm -rf /rhgs/client/nfs/distvol/mydir/*
-ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l
+<div class="codehilite"><pre><span></span>100
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span><span class="n">ls</span><span class="o">:</span> <span class="n">cannot</span> <span class="n">access</span> <span class="sr">/rhgs/client/nfs/distvol/mydir/</span><span class="o">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span>
-<span class="mi">0</span>
+<p>Now delete all the files in <code>/rhgs/client/nfs/distvol/mydir/</code></p>
+<div class="codehilite"><pre><span></span>rm -rf /rhgs/client/nfs/distvol/mydir/*
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>0
 </pre></div>
 
 
@@ -739,9 +766,16 @@ ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l
 </pre></div>
 
 
-<p><code>100</code></p>
+<div class="codehilite"><pre><span></span>100
+</pre></div>
+
+
 <p>Go back to <strong>rhgs1</strong> and restore the original volume from the snapshot. <br />
 For this step the volume must be stopped</p>
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span>sudo gluster volume stop distvol 
 </pre></div>
 
@@ -753,8 +787,11 @@ volume stop: distvol: success
 
 <p>Now restore the volume from the snapshot <code>snap1</code></p>
 <div class="codehilite"><pre><span></span>sudo gluster snapshot restore snap1
-Restore operation will replace the original volume with the snapshotted volume.
-Do you still want to <span class="k">continue</span>? <span class="o">(</span>y/n<span class="o">)</span> y
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>Restore operation will replace the original volume with the snapshotted volume.
+Do you still want to continue? (y/n) y
 </pre></div>
 
 
@@ -765,6 +802,10 @@ Do you still want to <span class="k">continue</span>? <span class="o">(</span>y/
 
 
 <p>Go back to <strong>client1</strong> and check the contents of <code>/rhgs/client/nfs/distvol/mydir/</code></p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span>ls /rhgs/client/nfs/distvol/mydir/ <span class="p">|</span> wc -l
 </pre></div>
 
@@ -816,24 +857,23 @@ snapshot config: snap-max-hard-limit for distvol set successfully
 
 
 <p>Now create 3 snapshots for distvol:</p>
-<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..4<span class="o">}</span><span class="p">;</span> <span class="k">do</span> sudo gluster snapshot create snap<span class="nv">$i</span> distvol no-timestamp force<span class="p">;</span> <span class="k">done</span>
+<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..3<span class="o">}</span><span class="p">;</span> <span class="k">do</span> sudo gluster snapshot create snap<span class="nv">$i</span> distvol no-timestamp force<span class="p">;</span> <span class="k">done</span>
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span>snapshot create: success: Snap snap1 created successfully
-snapshot create: success: Snap snap2 created successfully
-snapshot create: success: Snap snap3 created successfully
-snapshot create: success: Snap snap4 created successfully
-Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not possible once hard-limit is reached.
+<div class="codehilite"><pre><span></span>snapshot create: success: Snap snap1 created successfully 
+snapshot create: success: Snap snap2 created successfully 
+snapshot create: success: Snap snap3 created successfully 
+Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not possible once hard-limit is reached. 
 </pre></div>
 
 
-<p>If we create a 5th snapshot, we cross the pre-defined limit:</p>
-<div class="codehilite"><pre><span></span>sudo gluster snapshot create snap5 distvol no-timestamp force
+<p>If we create a 4th snapshot, we cross the pre-defined limit:</p>
+<div class="codehilite"><pre><span></span>sudo gluster snapshot create snap4 distvol no-timestamp force
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span>snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 4, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
+<div class="codehilite"><pre><span></span>snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 3, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
 Snapshot command failed
 </pre></div>
                 

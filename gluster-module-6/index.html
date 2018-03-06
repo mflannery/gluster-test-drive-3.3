@@ -397,7 +397,10 @@ gdeploy</p>
 </pre></div>
 
 
-<p><code>Common secret pub file present at /var/lib/glusterd/geo-replication/common_secret.pem.pub</code></p>
+<div class="codehilite"><pre><span></span>Common secret pub file present at /var/lib/glusterd/geo-replication/common_secret.pem.pub
+</pre></div>
+
+
 <p>The next step is to create the actual replication session, using the pem file created above</p>
 <div class="codehilite"><pre><span></span>sudo gluster volume geo-replication mastervol rhgs4::slavevol create push-pem
 </pre></div>
@@ -415,17 +418,29 @@ gdeploy</p>
 </pre></div>
 
 
-<p><code>MASTER NODE    MASTER VOL    MASTER BRICK                  SLAVE USER    SLAVE SLAVE NODE    STATUS     CRAWL STATUS       LAST_SYNCED</code><br />
-<code>----------------------------------------------------------------------------------------------------------------------------------------------------------</code><br />
-<code>rhgs1          mastervol     /rhgs/brick_xvdc/mastervol    root rhgs4::slavevol    rhgs5         Active     Changelog Crawl    2018-01-31 09:10:31</code><br />
-<code>rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root rhgs4::slavevol    rhgs4         Passive    N/A                N/A</code></p>
+<div class="codehilite"><pre><span></span>MASTER NODE    MASTER VOL    MASTER BRICK                  SLAVE USER    SLAVE              SLAVE NODE    STATUS             CRAWL STATUS    LAST_SYNCED          
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+rhgs1          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::slavevol    N/A           Initializing...    N/A             N/A                  
+rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::slavevol    N/A           Initializing...    N/A             N/A   
+</pre></div>
+
+
 <p><strong>NOTE</strong> It might take a moment to reach this state, you will possibly see a status of &ldquo;Initializing&rdquo; shortly. </p>
 <h3 id="client-access">Client access</h3>
 <p>On <strong>client1</strong> mount the geo-replicated volume from <strong>rhgs1</strong> and create files on it:</p>
 <div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/native/georep
-sudo mount -t glusterfs rhgs1:mastervol /rhgs/client/native/georep
-sudo mkdir -p /rhgs/client/native/georep/mydir
-sudo chmod <span class="m">777</span> /rhgs/client/native/georep/mydir
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo mount -t glusterfs rhgs1:mastervol /rhgs/client/native/georep
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/native/georep/mydir
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo chmod <span class="m">777</span> /rhgs/client/native/georep/mydir
 </pre></div>
 
 
@@ -448,24 +463,73 @@ sudo pkill python
 </pre></div>
 
 
+<p>Do the same on <strong>rhgs2</strong></p>
+<div class="codehilite"><pre><span></span>sudo systemctl stop glusterd                                                     
+</pre></div>
+
+
+<p>And also kill the glusterfsd and python processes                                </p>
+<div class="codehilite"><pre><span></span>sudo pkill glusterfsd                                                                                                                             
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo pkill python                                                                                                                                 
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
+</pre></div>
+
+
 <h3 id="check-client-access">CHECK CLIENT ACCESS</h3>
 <p>On <strong>client1</strong> check if the files are still accessible</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span>ls -l /rhgs/client/native/georep/mydir <span class="p">|</span> wc -l
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="n">ls</span><span class="o">:</span> <span class="n">cannot</span> <span class="n">access</span> <span class="sr">/rhgs/client/native/georep/</span><span class="n">mydir</span><span class="o">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span>                                                                     
+<span class="mi">0</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
 </pre></div>
 
 
 <h3 id="promote-the-slave-to-temporary-master">PROMOTE THE SLAVE TO TEMPORARY MASTER</h3>
 <p>Now that rhgs1 and rhgs2 are dead, we need to make <strong>rhgs4</strong> the new, temporary,<br />
 master. On <strong>rhgs4</strong> run</p>
+<div class="codehilite"><pre><span></span>ssh student@rhgs4
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span>sudo gluster volume <span class="nb">set</span> slavevol geo-replication.indexing on
-sudo gluster volume <span class="nb">set</span> slavevol changelog on
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo gluster volume <span class="nb">set</span> slavevol changelog on
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
 </pre></div>
 
 
 <h3 id="change-client-to-use-the-temporary-master">CHANGE CLIENT TO USE THE TEMPORARY MASTER</h3>
 <p>On <strong>client1</strong> umount the volume from rhgs1 which is no longer accessible and use the slavevol from rhgs4</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span>sudo umount /rhgs/client/native/georep
-sudo mount -t glusterfs rhgs4:slavevol /rhgs/client/native/georep
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo mount -t glusterfs rhgs4:slavevol /rhgs/client/native/georep
 </pre></div>
 
 
