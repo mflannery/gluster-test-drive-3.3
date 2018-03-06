@@ -103,13 +103,14 @@ sudo gluster volume geo-replication mastervol rhgs4::slavevol status
 ```
 
 ```
-MASTER NODE    MASTER VOL    MASTER BRICK                  SLAVE USER    SLAVE              SLAVE NODE    STATUS             CRAWL STATUS    LAST_SYNCED          
--------------------------------------------------------------------------------------------------------------------------------------------------------
-rhgs1          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::slavevol    N/A           Initializing...    N/A             N/A                  
-rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::slavevol    N/A           Initializing...    N/A             N/A   
+MASTER NODE    MASTER VOL    MASTER BRICK                  SLAVE USER    SLAVE SLAVE NODE    STATUS     CRAWL STATUS       LAST_SYNCED  
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+rhgs1          mastervol     /rhgs/brick_xvdc/mastervol    root rhgs4::slavevol    rhgs5         Active     Changelog Crawl    2018-03-06 15:08:22          
+rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root rhgs4::slavevol    rhgs4         Passive    N/A                N/A        
 ```
 
 **NOTE** It might take a moment to reach this state, you will possibly see a status of "Initializing" shortly. 
+Please wait until the above state has been reached before you move on.
 
 ### CLIENT ACCESS
 
