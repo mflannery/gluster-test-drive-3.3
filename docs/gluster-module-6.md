@@ -76,7 +76,9 @@ First a common pem pub file needs to be created, back on **rhgs1**
 ```bash
 sudo gluster system:: execute gsec_create
 ```
-``Common secret pub file present at /var/lib/glusterd/geo-replication/common_secret.pem.pub``
+```
+Common secret pub file present at /var/lib/glusterd/geo-replication/common_secret.pem.pub
+```
 
 The next step is to create the actual replication session, using the pem file created above
   
@@ -101,10 +103,12 @@ Check if the deployment works correctly:
 sudo gluster volume geo-replication mastervol rhgs4::slavevol status
 ```
 
-``MASTER NODE    MASTER VOL    MASTER BRICK                  SLAVE USER    SLAVE SLAVE NODE    STATUS     CRAWL STATUS       LAST_SYNCED                    ``
-``----------------------------------------------------------------------------------------------------------------------------------------------------------``
-``rhgs1          mastervol     /rhgs/brick_xvdc/mastervol    root rhgs4::slavevol    rhgs5         Active     Changelog Crawl    2018-01-31 09:10:31        ``
-``rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root rhgs4::slavevol    rhgs4         Passive    N/A                N/A                        ``
+```
+MASTER NODE    MASTER VOL    MASTER BRICK                  SLAVE USER    SLAVE              SLAVE NODE    STATUS             CRAWL STATUS    LAST_SYNCED          
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+rhgs1          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::slavevol    N/A           Initializing...    N/A             N/A                  
+rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::slavevol    N/A           Initializing...    N/A             N/A   
+```
 
 **NOTE** It might take a moment to reach this state, you will possibly see a status of "Initializing" shortly. 
 
@@ -114,8 +118,14 @@ On **client1** mount the geo-replicated volume from **rhgs1** and create files o
 
 ```bash
 sudo mkdir -p /rhgs/client/native/georep
+```
+```bash
 sudo mount -t glusterfs rhgs1:mastervol /rhgs/client/native/georep
+```
+```bash
 sudo mkdir -p /rhgs/client/native/georep/mydir
+```
+```bash
 sudo chmod 777 /rhgs/client/native/georep/mydir
 ```
 
@@ -135,19 +145,45 @@ We need to turn the master off completely, so that the slave can take over its f
 ```bash
 sudo systemctl stop glusterd
 ```
-
 And also kill the glusterfsd and python processes
 ```bash
 sudo pkill glusterfsd
 sudo pkill python
 ```
 
+Do the same on **rhgs2**
+
+```bash                                                                          
+sudo systemctl stop glusterd                                                     
+```                                                                              
+And also kill the glusterfsd and python processes                                
+```bash                                                                                                                                           
+sudo pkill glusterfsd                                                                                                                             
+```
+```bash
+sudo pkill python                                                                                                                                 
+```     
+```bash
+exit
+```
+
 ### CHECK CLIENT ACCESS
 
 On **client1** check if the files are still accessible
 ```bash
+ssh student@client1
+```
+```bash
 ls -l /rhgs/client/native/georep/mydir | wc -l
 ```
+```
+ls: cannot access /rhgs/client/native/georep/mydir: No such file or directory                                                                     
+0
+```
+```bash
+exit
+```
+
 
 ### PROMOTE THE SLAVE TO TEMPORARY MASTER
 
@@ -155,8 +191,16 @@ Now that rhgs1 and rhgs2 are dead, we need to make **rhgs4** the new, temporary,
 master. On **rhgs4** run
 
 ```bash
+ssh student@rhgs4
+```
+```bash
 sudo gluster volume set slavevol geo-replication.indexing on
+```
+```bash
 sudo gluster volume set slavevol changelog on
+```
+```bash
+exit
 ```
 
 ### CHANGE CLIENT TO USE THE TEMPORARY MASTER
@@ -164,7 +208,12 @@ sudo gluster volume set slavevol changelog on
 On **client1** umount the volume from rhgs1 which is no longer accessible and use the slavevol from rhgs4
 
 ```bash
+ssh student@client1
+```
+```bash
 sudo umount /rhgs/client/native/georep
+```
+```bash
 sudo mount -t glusterfs rhgs4:slavevol /rhgs/client/native/georep
 ```
 
