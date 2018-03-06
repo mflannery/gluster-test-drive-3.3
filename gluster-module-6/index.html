@@ -417,14 +417,15 @@
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span>MASTER NODE    MASTER VOL    MASTER BRICK                  SLAVE USER    SLAVE              SLAVE NODE    STATUS             CRAWL STATUS    LAST_SYNCED          
--------------------------------------------------------------------------------------------------------------------------------------------------------
-rhgs1          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::slavevol    N/A           Initializing...    N/A             N/A                  
-rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::slavevol    N/A           Initializing...    N/A             N/A   
+<div class="codehilite"><pre><span></span>MASTER NODE    MASTER VOL    MASTER BRICK                  SLAVE USER    SLAVE SLAVE NODE    STATUS     CRAWL STATUS       LAST_SYNCED  
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+rhgs1          mastervol     /rhgs/brick_xvdc/mastervol    root rhgs4::slavevol    rhgs5         Active     Changelog Crawl    2018-03-06 15:08:22          
+rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root rhgs4::slavevol    rhgs4         Passive    N/A                N/A        
 </pre></div>
 
 
-<p><strong>NOTE</strong> It might take a moment to reach this state, you will possibly see a status of &ldquo;Initializing&rdquo; shortly. </p>
+<p><strong>NOTE</strong> It might take a moment to reach this state, you will possibly see a status of &ldquo;Initializing&rdquo; shortly. <br />
+Please wait until the above state has been reached before you move on.</p>
 <h3 id="client-access">CLIENT ACCESS</h3>
 <p>On <strong>client1</strong> mount the geo-replicated volume from <strong>rhgs1</strong> and create files on it:</p>
 <div class="codehilite"><pre><span></span>ssh student@client1
