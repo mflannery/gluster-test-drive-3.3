@@ -21,3 +21,5 @@ pages:
     - 'Module 4 - Disperse Volumes (Erasure Coding)': gluster-module-4.md
     - 'Module 5 - Snapshot Operations and Administration': gluster-module-5.md
     - 'Module 6 - Geo-Replication and Disaster Recovery': gluster-module-6.md
+    - 'Module 7 - Brick Replacement': gluster-module-7.md
+
