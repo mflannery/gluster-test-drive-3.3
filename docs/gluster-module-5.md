@@ -118,7 +118,7 @@ For many common use cases, the well-established NFS protocol is used for ease of
 You can connect to the **client1** system via `ssh` directly from the rhgs1 system.    
                                                                                        
 ```bash                                                                                
-ssh student@client1                                                                    
+ssh student@client1 
 ```                                                                                    
                                                                                        
 Here, on the RHEL client, you will mount via NFS the Gluster **distvol** volume you created above.                                                                            
@@ -374,6 +374,11 @@ sudo gluster snapshot create snap4 distvol no-timestamp force
 ```
 snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 3, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
 Snapshot command failed
+```
+
+Delete all the existing snapshots
+```bash
+sudo gluster snapshot delete all
 ```
 
 
