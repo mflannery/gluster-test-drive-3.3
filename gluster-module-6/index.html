@@ -474,6 +474,10 @@ rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::
 </pre></div>
 
 
+<div class="codehilite"><pre><span></span>sudo pkill -9 glusterfs
+</pre></div>
+
+
 <p>Do the same on <strong>rhgs2</strong></p>
 <div class="codehilite"><pre><span></span>ssh student@rhgs2
 </pre></div>
@@ -489,6 +493,10 @@ rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::
 
 
 <div class="codehilite"><pre><span></span>sudo pkill -9 python
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo pkill -9 glusterfs
 </pre></div>
 
 
@@ -550,7 +558,7 @@ master. On <strong>rhgs4</strong> run</p>
 
 
 <p>Check the contents of /rhgs/client/native/georep/mydir</p>
-<div class="codehilite"><pre><span></span>ls -l /rhgs/client/native/georep/mydir <span class="p">|</span> wc -l
+<div class="codehilite"><pre><span></span>ls /rhgs/client/native/georep/mydir <span class="p">|</span> wc -l
 </pre></div>
 
 
