@@ -378,21 +378,24 @@ There are no active volume tasks
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/native/repvol                                        
+<div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/native/repvol 
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span>sudo mount -t glusterfs rhgs1:repvol /rhgs/client/native/repvol/               
+<div class="codehilite"><pre><span></span>sudo mount -t glusterfs rhgs1:repvol /rhgs/client/native/repvol/ 
 </pre></div>
 
 
 <p>Examine the new mount.                                                                         </p>
-<div class="codehilite"><pre><span></span>df -h /rhgs/client/native/repvol/                                                             
+<div class="codehilite"><pre><span></span>df -h /rhgs/client/native/repvol/
 </pre></div>
 
 
-<p><code>Filesystem      Size  Used Avail Use% Mounted on</code>                                         <br />
-<code>rhgs1:distvol    60G  199M   60G   1% /rhgs/client/native/repvol</code> </p>
+<div class="codehilite"><pre><span></span>Filesystem      Size  Used Avail Use% Mounted on                                                                                                                             
+rhgs1:repvol     10G   34M   10G   1% /rhgs/client/native/repvol
+</pre></div>
+
+
 <p>Create and set permissions on a subdirectory to hold your data.                  </p>
 <div class="codehilite"><pre><span></span>sudo mkdir /rhgs/client/native/repvol/mydir                                        
 </pre></div>
@@ -574,7 +577,7 @@ Log out from <strong>rhgs2</strong></p>
 </pre></div>
 
 
-<p>Back on <strong>rhgs</strong> we need to tell gluster to replace the faulty brick with the newly created one</p>
+<p>Back on <strong>rhgs1</strong> we need to tell gluster to replace the faulty brick with the newly created one</p>
 <div class="codehilite"><pre><span></span>sudo gluster volume replace-brick repvol rhgs2:/rhgs/brick_xvdc/repvol rhgs2:/rhgs/brick_xvde/repvol commit force
 </pre></div>
 
