@@ -426,8 +426,12 @@ rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::
 
 
 <p><strong>NOTE</strong> It might take a moment to reach this state, you will possibly see a status of &ldquo;Initializing&rdquo; shortly. </p>
-<h3 id="client-access">Client access</h3>
+<h3 id="client-access">CLIENT ACCESS</h3>
 <p>On <strong>client1</strong> mount the geo-replicated volume from <strong>rhgs1</strong> and create files on it:</p>
+<div class="codehilite"><pre><span></span>ssh student@client1
+</pre></div>
+
+
 <div class="codehilite"><pre><span></span>sudo mkdir -p /rhgs/client/native/georep
 </pre></div>
 
@@ -445,8 +449,12 @@ rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::
 
 
 <p>Now create 50 files</p>
-<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">000</span>..050<span class="o">}</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> hello<span class="nv">$i</span> &gt; /rhgs/client/native/georep/mydir/file<span class="nv">$i</span><span class="p">;</span>
+<div class="codehilite"><pre><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">001</span>..050<span class="o">}</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> hello<span class="nv">$i</span> &gt; /rhgs/client/native/georep/mydir/file<span class="nv">$i</span><span class="p">;</span>
 <span class="k">done</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="nb">exit</span>
 </pre></div>
 
 
@@ -459,21 +467,28 @@ rhgs2          mastervol     /rhgs/brick_xvdc/mastervol    root          rhgs4::
 
 <p>And also kill the glusterfsd and python processes</p>
 <div class="codehilite"><pre><span></span>sudo pkill glusterfsd
-sudo pkill python
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo pkill python
 </pre></div>
 
 
 <p>Do the same on <strong>rhgs2</strong></p>
-<div class="codehilite"><pre><span></span>sudo systemctl stop glusterd                                                     
+<div class="codehilite"><pre><span></span>ssh student@rhgs2
 </pre></div>
 
 
-<p>And also kill the glusterfsd and python processes                                </p>
-<div class="codehilite"><pre><span></span>sudo pkill glusterfsd                                                                                                                             
+<div class="codehilite"><pre><span></span>sudo systemctl stop glusterd 
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span>sudo pkill python                                                                                                                                 
+<p>And also kill the glusterfsd and python processes </p>
+<div class="codehilite"><pre><span></span>sudo pkill glusterfsd 
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>sudo pkill python
 </pre></div>
 
 
@@ -491,7 +506,8 @@ sudo pkill python
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span><span class="n">ls</span><span class="o">:</span> <span class="n">cannot</span> <span class="n">access</span> <span class="sr">/rhgs/client/native/georep/</span><span class="n">mydir</span><span class="o">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="n">or</span> <span class="n">directory</span>                                                                     
+<div class="codehilite"><pre><span></span><span class="n">ls</span><span class="o">:</span> <span class="n">cannot</span> <span class="n">access</span> <span class="sr">/rhgs/client/native/georep/</span><span class="n">mydir</span><span class="o">:</span> <span class="n">Transport</span> <span class="n">endpoint</span> <span class="k">is</span> <span class="n">not</span>
+<span class="n">connected</span>
 <span class="mi">0</span>
 </pre></div>
 

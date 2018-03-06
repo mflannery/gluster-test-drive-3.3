@@ -632,7 +632,7 @@ following line:</p>
 <p>A Gluster volume can be accessed through multiple standard client protocols, as well as through specialized methods including the OpenStack Swift protocol and a direct API.  </p>
 <p>For many common use cases, the well-established NFS protocol is used for ease of implementation and compatibility with existing applications and architectures. For some use cases, the NFS protocol may also offer a performance benefit over other access methods. </p>
 <p>You can connect to the <strong>client1</strong> system via <code>ssh</code> directly from the rhgs1 system.    </p>
-<div class="codehilite"><pre><span></span>ssh student@client1                                                                    
+<div class="codehilite"><pre><span></span>ssh student@client1 
 </pre></div>
 
 
@@ -875,6 +875,11 @@ Warning: Soft-limit of volume (distvol) is reached. Snapshot creation is not pos
 
 <div class="codehilite"><pre><span></span>snapshot create: failed: The number of existing snaps has reached the effective maximum limit of 3, for the volume (distvol). Please delete few snapshots before taking further snapshots. 
 Snapshot command failed
+</pre></div>
+
+
+<p>Delete all the existing snapshots</p>
+<div class="codehilite"><pre><span></span>sudo gluster snapshot delete all
 </pre></div>
                 
                   
