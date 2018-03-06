@@ -56,8 +56,7 @@ We will set up a geo-replication with the master being in the "local" cluster an
 
 ### CREATE MASTER AND SLAVE VOLUMES
 
-On **rhgs1** create the master volume using the mastervol.conf file with
-gdeploy
+On **rhgs1** create the master volume using the mastervol.conf file with gdeploy
 ```bash
 gdeploy -c ~/materials/gdeploy/mastervol.conf
 ```
